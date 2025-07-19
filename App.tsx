@@ -721,9 +721,9 @@ export default function App() {
           {/* Recipe Grid */}
           <div className="space-y-8">
             {/* Main Content Grid - Recipe Card and Baking Info Side by Side */}
-            <div className="grid lg:grid-cols-[2fr_1fr] gap-8">
+            <div className="grid lg:grid-cols-[1fr_1fr] gap-6">
               {/* Recipe Card */}
-              <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm">
+              <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm lg:col-span-1">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif' }}>
                     Your Recipe
@@ -843,7 +843,7 @@ export default function App() {
               </article>
 
               {/* Right Sidebar - Baking Info */}
-              <div className="space-y-6">
+              <div className="space-y-6 lg:col-span-1">
                 {/* Baking Info Card */}
                 <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="baking-info-heading">
                   <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
