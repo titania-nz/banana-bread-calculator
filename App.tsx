@@ -293,7 +293,7 @@ export default function App() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen" style={{backgroundColor: 'red'}}>
+      <div className="min-h-screen bg-warm-cream">
         {/* Screen Reader Announcements */}
         <div 
           className="sr-only" 
