@@ -10,7 +10,7 @@ This repository contains a simple React + TypeScript application that calculates
 
 ## Running locally
 
-The project does not ship with a build system. Copy `App.tsx`, the `components` directory and `styles/globals.css` into a React setup of your choice (for example using Vite) and install the usual dependencies. Then start your development server as normal.
+The project does not ship with a build system. Copy `App.tsx`, the `components` directory and `styles/globals.css` into a React setup of your choice (for example using Vite) and install the usual dependencies. A root `tsconfig.json` with React defaults is included—extend or use it directly before starting your development server.
 
 ```bash
 npm install
