@@ -274,6 +274,23 @@ export default function App() {
 
   const status = getBananaStatus();
   const bakingInfo = getBakingInfo();
+
+  // Define ingredient arrays using useMemo for performance
+  const wetIngredients = useMemo(() => [
+    { name: 'Mashed bananas', value: getIngredientAmount('banana') },
+    { name: 'Sugar', value: getIngredientAmount('sugar') },
+    { name: 'Melted butter', value: getIngredientAmount('butter') },
+    { name: 'Eggs', value: getIngredientAmount('eggs') },
+    { name: 'Vanilla extract', value: getIngredientAmount('vanilla') }
+  ], [getIngredientAmount]);
+
+  const dryIngredients = useMemo(() => [
+    { name: 'All-purpose flour', value: getIngredientAmount('flour') },
+    { name: 'Baking soda', value: getIngredientAmount('bakingSoda') },
+    { name: 'Salt', value: getIngredientAmount('salt') },
+    { name: 'Cinnamon (optional)', value: getIngredientAmount('cinnamon') }
+  ], [getIngredientAmount]);
+
   return (
     <TooltipProvider delayDuration={300}>
       <div className="min-h-screen bg-red-500">
