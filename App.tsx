@@ -7,6 +7,20 @@ import { Input } from './components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './components/ui/tooltip';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog';
 
+interface BananaInputProps {
+  ref: React.RefObject<HTMLInputElement>;
+  type: string;
+  min: string;
+  max: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  className: string;
+  style: React.CSSProperties;
+  'aria-label': string;
+}
+
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
   const [gramAmount, setGramAmount] = useState(360); // 3 bananas * 120g
@@ -50,7 +64,7 @@ export default function App() {
       return wholeNumber.toString();
     }
     
-    let closestFraction = null;
+    let closestFraction: string | null = null;
     let closestDiff = Infinity;
     
     for (const frac of fractions) {
@@ -311,7 +325,7 @@ export default function App() {
       "author": {
         "@type": "Person",
         "name": "Steph",
-        "url": "https://titania.co.nz"
+        "url": "https://github.com/titania-nz/banana-bread-calculator"
       },
       "datePublished": "2024-01-01",
       "prepTime": "PT15M",
@@ -407,7 +421,7 @@ export default function App() {
         meta.setAttribute(attribute, name);
         document.head.appendChild(meta);
       }
-      meta.content = content;
+      (meta as HTMLMetaElement).content = content;
     };
 
     // Basic meta tags
@@ -446,17 +460,17 @@ export default function App() {
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
       canonical = document.createElement('link');
-      canonical.rel = 'canonical';
+      (canonical as HTMLLinkElement).rel = 'canonical';
       document.head.appendChild(canonical); 
     }
-    canonical.href = seoData.url;
+    (canonical as HTMLLinkElement).href = seoData.url;
 
     // Load Google Fonts with preload for better performance
     const fontPreload = document.createElement('link');
     fontPreload.rel = 'preload';
     fontPreload.href = 'https://fonts.googleapis.com/css2?family=Yellowtail&family=Open+Sans:wght@300;400;600;700&display=swap';
     fontPreload.as = 'style';
-    fontPreload.onload = function() { this.rel = 'stylesheet'; };
+    fontPreload.onload = (e) => { (e.target as HTMLLinkElement).rel = 'stylesheet'; };
     document.head.appendChild(fontPreload);
 
     const fontLink = document.createElement('link');
@@ -565,32 +579,42 @@ export default function App() {
                 
                 <div className="text-center">
                   {isEditingBananaCount ? (
-                    <div className="relative">
-                      <Input
-                        ref={bananaInputRef}
-                        type="number"
-                        min="1"
-                        max="100"
-                        value={editingBananaValue}
-                        onChange={(e) => handleDirectBananaCountChange(e.target.value)}
-                        onBlur={handleBananaCountConfirm}
-                        onKeyDown={handleBananaCountKeyDown}
-                        className="w-64 h-40 text-center font-bold bg-transparent border-none text-deep-brown focus:ring-0 focus:ring-offset-0 focus:border-none focus:outline-none resize-none appearance-none p-0 shadow-none"
-                        style={{ 
-                          fontFamily: '"Open Sans", sans-serif', 
-                          fontWeight: 700, 
-                          fontSize: 'clamp(5rem, 12vw, 8rem)',
-                          lineHeight: '1',
-                          textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)',
-                          background: 'transparent'
-                        }}
-                        aria-label="Edit number of bananas"
-                      />
-                      <div className="absolute inset-0 bg-white/90 backdrop-blur-sm border-2 border-deep-brown/30 rounded-2xl shadow-warm -z-10 pointer-events-none ring-2 ring-primary/50" />
-                      <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-sm text-deep-brown/70 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg font-medium" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}>
-                        Press Enter to save, Esc to cancel
-                      </div>
-                    </div>
+                    (() => {
+                      const bananaInputProps: BananaInputProps = {
+                        ref: bananaInputRef,
+                        type: "number",
+                        min: "1",
+                        max: "100",
+                        value: editingBananaValue,
+                        onChange: (e) => handleDirectBananaCountChange(e.target.value),
+                        onBlur: handleBananaCountConfirm,
+                        onKeyDown: handleBananaCountKeyDown,
+                        className:
+                          "w-64 h-40 text-center font-bold bg-transparent border-none text-deep-brown focus:ring-0 focus:ring-offset-0 focus:border-none focus:outline-none resize-none appearance-none p-0 shadow-none",
+                        style: {
+                          fontFamily: '"Open Sans", sans-serif',
+                          fontWeight: 700,
+                          fontSize: "clamp(5rem, 12vw, 8rem)",
+                          lineHeight: "1",
+                          textShadow: "2px 2px 4px rgba(255, 255, 255, 0.8)",
+                          background: "transparent",
+                        },
+                        "aria-label": "Edit number of bananas",
+                      };
+
+                      return (
+                        <div className="relative">
+                          <Input {...bananaInputProps} />
+                          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm border-2 border-deep-brown/30 rounded-2xl shadow-warm -z-10 pointer-events-none ring-2 ring-primary/50" />
+                          <div
+                            className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-sm text-deep-brown/70 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg font-medium"
+                            style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}
+                          >
+                            Press Enter to save, Esc to cancel
+                          </div>
+                        </div>
+                      );
+                    })()
                   ) : (
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -913,7 +937,7 @@ export default function App() {
             <p className="text-sm text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
               Made with <span role="img" aria-label="bread">🍞</span> by{' '}
               <a 
-                href="https://titania.co.nz" 
+                href="https://github.com/titania-nz/banana-bread-calculator" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-deep-brown hover:text-primary font-semibold"
