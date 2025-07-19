@@ -21,6 +21,60 @@ npm run preview    # serve the production build locally
 
 UI components are sourced from [shadcn/ui](https://ui.shadcn.com).
 
+## Required packages
+
+Install these packages when integrating the calculator into your own project:
+
+```bash
+npm install clsx tailwind-merge class-variance-authority \
+  @radix-ui/react-slot @radix-ui/react-accordion \
+  cmdk lucide-react
+npm install -D tailwindcss postcss autoprefixer
+```
+
+## Tailwind setup
+
+Run the following command inside your Vite project to generate the configuration files:
+
+```bash
+npx tailwindcss init -p
+```
+
+Edit `tailwind.config.js` so Tailwind scans your source files:
+
+```js
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: { extend: {} },
+  plugins: [],
+}
+```
+
+At the top of `styles/globals.css` include the Tailwind directives:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## Example entry file
+
+The Vite entry file imports `App` and the global stylesheet:
+
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import './styles/globals.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+```
+
 ## Attributions
 
 See [Attributions.md](Attributions.md) for details on third‑party assets.
