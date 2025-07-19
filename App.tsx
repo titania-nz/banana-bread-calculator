@@ -1,46 +1,26 @@
-import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Plus, Minus, HelpCircle } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
 import { ToggleGroup, ToggleGroupItem } from './components/ui/toggle-group';
 import { Input } from './components/ui/input';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './components/ui/tooltip';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog';
 
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
-  const [gramAmount, setGramAmount] = useState(360); // 3 bananas * 120g
   const [isMetric, setIsMetric] = useState(true);
-  const [inputError, setInputError] = useState('');
-  const [isEditingBananaCount, setIsEditingBananaCount] = useState(false);
-  const [editingBananaValue, setEditingBananaValue] = useState('3');
-  const [recipeAnnouncement, setRecipeAnnouncement] = useState('');
-  const mainContentRef = useRef(null);
-  const bananaInputRef = useRef(null);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal) => {
     if (decimal === 0) return '0';
     
     const fractions = [
-      { decimal: 0.0625, fraction: '1/16' },
       { decimal: 0.125, fraction: '1/8' },
-      { decimal: 0.1667, fraction: '1/6' },
-      { decimal: 0.1875, fraction: '3/16' },
       { decimal: 0.25, fraction: '1/4' },
-      { decimal: 0.3125, fraction: '5/16' },
       { decimal: 0.3333, fraction: '1/3' },
-      { decimal: 0.375, fraction: '3/8' },
-      { decimal: 0.4167, fraction: '5/12' },
       { decimal: 0.5, fraction: '1/2' },
-      { decimal: 0.5625, fraction: '9/16' },
-      { decimal: 0.625, fraction: '5/8' },
       { decimal: 0.6667, fraction: '2/3' },
-      { decimal: 0.6875, fraction: '11/16' },
-      { decimal: 0.75, fraction: '3/4' },
-      { decimal: 0.8125, fraction: '13/16' },
-      { decimal: 0.8333, fraction: '5/6' },
-      { decimal: 0.875, fraction: '7/8' }
+      { decimal: 0.75, fraction: '3/4' }
     ];
 
     const wholeNumber = Math.floor(decimal);
@@ -68,36 +48,16 @@ export default function App() {
       return closestFraction;
     }
     
-    // If no close match, round to nearest 1/16
-    const sixteenths = Math.round(remainder * 16);
-    if (sixteenths === 0) {
-      return wholeNumber.toString();
-    } else if (sixteenths === 16) {
-      return (wholeNumber + 1).toString();
-    } else {
-      const simplifiedFraction = simplifyFraction(sixteenths, 16);
-      if (wholeNumber > 0) {
-        return `${wholeNumber} ${simplifiedFraction}`;
-      }
-      return simplifiedFraction;
-    }
-  }, []);
-
-  const simplifyFraction = useCallback((numerator, denominator) => {
-    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-    const divisor = gcd(numerator, denominator);
-    return `${numerator / divisor}/${denominator / divisor}`;
+    return decimal.toFixed(1);
   }, []);
 
   // Precise formula per banana (120g each)
   const perBananaFormula = {
-    banana: 120, flour: 60, sugar: 50, butter: 28, bakingSoda: 1.5, salt: 0.75, vanilla: 1.25, cinnamon: 0.5,
-    nuts: 17.5, chocolate: 17.5
+    banana: 120, flour: 60, sugar: 50, butter: 28, bakingSoda: 1.5, salt: 0.75, vanilla: 1.25, cinnamon: 0.5
   };
 
   const usConversions = {
-    banana: 0.5, flour: 0.5, sugar: 0.25, butter: 2, bakingSoda: 0.25, salt: 0.125, vanilla: 0.25, cinnamon: 0.125,
-    nuts: 2, chocolate: 2
+    banana: 0.5, flour: 0.5, sugar: 0.25, butter: 2, bakingSoda: 0.25, salt: 0.125, vanilla: 0.25, cinnamon: 0.125
   };
 
   const scaledRecipe = useMemo(() => {
@@ -112,16 +72,11 @@ export default function App() {
       bakingSoda: { metric: perBananaFormula.bakingSoda * bananaCount, us: usConversions.bakingSoda * bananaCount },
       salt: { metric: perBananaFormula.salt * bananaCount, us: usConversions.salt * bananaCount },
       vanilla: { metric: perBananaFormula.vanilla * bananaCount, us: usConversions.vanilla * bananaCount },
-      cinnamon: { metric: perBananaFormula.cinnamon * bananaCount, us: usConversions.cinnamon * bananaCount },
-      nuts: { metric: perBananaFormula.nuts * bananaCount, us: usConversions.nuts * bananaCount },
-      chocolate: { metric: perBananaFormula.chocolate * bananaCount, us: usConversions.chocolate * bananaCount }
+      cinnamon: { metric: perBananaFormula.cinnamon * bananaCount, us: usConversions.cinnamon * bananaCount }
     };
   }, [bananaCount]);
 
   const getBananaStatus = useCallback(() => {
-    if (bananaCount === 69) {
-      return { message: "Nice.", emoji: "😎" };
-    }
     if (bananaCount === 1) {
       return { message: "Lonely banana", emoji: "🍌" };
     }
@@ -134,10 +89,7 @@ export default function App() {
     if (bananaCount <= 12) {
       return { message: "Baker mode", emoji: "👩‍🍳" };
     }
-    if (bananaCount <= 30) {
-      return { message: "Banana empire", emoji: "👑" };
-    }
-    return { message: "Banana legend", emoji: "🦸‍♀️" };
+    return { message: "Banana empire", emoji: "👑" };
   }, [bananaCount]);
 
   const getBakingInfo = useCallback(() => {
@@ -163,8 +115,7 @@ export default function App() {
       panSize: panInfo, 
       batterWeight: isMetric ? `${batterWeight}g` : `${Math.round(batterWeight / 454)} lbs`, 
       temp, 
-      time,
-      loafCount: bananaCount <= 6 ? 1 : Math.ceil(bananaCount / 5)
+      time
     };
   }, [bananaCount, isMetric]);
 
@@ -178,607 +129,588 @@ export default function App() {
       vanilla: isMetric ? `${scaledRecipe.vanilla.metric.toFixed(1)} mL` : `${toFraction(scaledRecipe.vanilla.us)} tsp`,
       bakingSoda: isMetric ? `${scaledRecipe.bakingSoda.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.bakingSoda.us)} tsp`,
       salt: isMetric ? `${scaledRecipe.salt.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.salt.us)} tsp`,
-      cinnamon: isMetric ? `${scaledRecipe.cinnamon.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.cinnamon.us)} tsp`,
-      nuts: isMetric ? `${Math.round(scaledRecipe.nuts.metric)}g` : `${toFraction(scaledRecipe.nuts.us)} tbsp`,
-      chocolate: isMetric ? `${Math.round(scaledRecipe.chocolate.metric)}g` : `${toFraction(scaledRecipe.chocolate.us)} tbsp`
+      cinnamon: isMetric ? `${scaledRecipe.cinnamon.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.cinnamon.us)} tsp`
     };
     return amounts[ingredient] || '';
   }, [scaledRecipe, isMetric, toFraction]);
 
-  // Input validation for banana count
   const handleBananaCountChange = useCallback((value) => {
-    const numValue = parseInt(value) || 1;
-    if (numValue < 1) {
-      setInputError('Please enter at least 1 banana');
-      setBananaCount(1);
-      setGramAmount(120);
-    } else if (numValue > 100) {
-      setInputError('Maximum 100 bananas supported');
-      setBananaCount(100);
-      setGramAmount(12000);
-    } else {
-      setInputError('');
-      setBananaCount(numValue);
-      setGramAmount(numValue * 120);
-      // Announce recipe update for screen readers
-      const status = getBananaStatus();
-      setRecipeAnnouncement(`Recipe updated for ${numValue} banana${numValue !== 1 ? 's' : ''}. Status: ${status.message}`);
-      setTimeout(() => setRecipeAnnouncement(''), 3000);
-    }
-  }, [getBananaStatus]);
-
-  // New gram input handler
-  const handleGramChange = useCallback((value) => {
-    const numValue = parseInt(value) || 120;
-    if (numValue < 120) {
-      setInputError('Minimum 120g (1 banana) required');
-      setGramAmount(120);
-      setBananaCount(1);
-    } else if (numValue > 12000) {
-      setInputError('Maximum 12000g (100 bananas) supported');
-      setGramAmount(12000);
-      setBananaCount(100);
-    } else {
-      setInputError('');
-      setGramAmount(numValue);
-      setBananaCount(Math.round(numValue / 120));
-    }
-  }, []);
-
-  // Handle clicking on banana count to edit
-  const handleBananaCountClick = useCallback(() => {
-    setIsEditingBananaCount(true);
-    setEditingBananaValue(bananaCount.toString());
-    setTimeout(() => {
-      if (bananaInputRef.current) {
-        bananaInputRef.current.focus();
-        bananaInputRef.current.select();
-      }
-    }, 0);
-  }, [bananaCount]);
-
-  // Handle direct banana count input
-  const handleDirectBananaCountChange = useCallback((value) => {
-    setEditingBananaValue(value);
-  }, []);
-
-  // Handle confirming banana count edit
-  const handleBananaCountConfirm = useCallback(() => {
-    const numValue = parseInt(editingBananaValue) || 1;
-    handleBananaCountChange(numValue);
-    setIsEditingBananaCount(false);
-  }, [editingBananaValue, handleBananaCountChange]);
-
-  // Handle canceling banana count edit
-  const handleBananaCountCancel = useCallback(() => {
-    setIsEditingBananaCount(false);
-    setEditingBananaValue(bananaCount.toString());
-  }, [bananaCount]);
-
-  // Handle key presses in banana count input
-  const handleBananaCountKeyDown = useCallback((e) => {
-    if (e.key === 'Enter') {
-      handleBananaCountConfirm();
-    } else if (e.key === 'Escape') {
-      handleBananaCountCancel();
-    }
-  }, [handleBananaCountConfirm, handleBananaCountCancel]);
-
-  // Skip to main content handler
-  const skipToMain = useCallback(() => {
-    if (mainContentRef.current) {
-      mainContentRef.current.focus({ preventScroll: false });
-      mainContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const numValue = Math.max(1, Math.min(100, parseInt(value) || 1));
+    setBananaCount(numValue);
   }, []);
 
   const status = getBananaStatus();
   const bakingInfo = getBakingInfo();
 
-  // Define ingredient arrays using useMemo for performance
-  const wetIngredients = useMemo(() => [
-    { name: 'Mashed bananas', value: getIngredientAmount('banana') },
-    { name: 'Sugar', value: getIngredientAmount('sugar') },
-    { name: 'Melted butter', value: getIngredientAmount('butter') },
-    { name: 'Eggs', value: getIngredientAmount('eggs') },
-    { name: 'Vanilla extract', value: getIngredientAmount('vanilla') }
-  ], [getIngredientAmount]);
-
-  const dryIngredients = useMemo(() => [
-    { name: 'All-purpose flour', value: getIngredientAmount('flour') },
-    { name: 'Baking soda', value: getIngredientAmount('bakingSoda') },
-    { name: 'Salt', value: getIngredientAmount('salt') },
-    { name: 'Cinnamon (optional)', value: getIngredientAmount('cinnamon') }
-  ], [getIngredientAmount]);
-
   return (
-    <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen" style={{backgroundColor: '#F5F0E1'}}>
-        {/* Screen Reader Announcements */}
-        <div 
-          className="sr-only" 
-          aria-live="polite" 
-          aria-atomic="true"
-          role="status"
-        >
-          {recipeAnnouncement}
+    <div style={{ minHeight: '100vh', backgroundColor: '#FFF8E7' }}>
+      {/* Header */}
+      <div style={{ padding: '2rem 0', textAlign: 'center', backgroundColor: '#FFF8E7' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <h1 style={{ 
+            fontSize: 'clamp(2rem, 4.5vw, 2.7rem)', 
+            fontFamily: 'Yellowtail, cursive', 
+            color: '#6F4E37',
+            marginBottom: '0.5rem',
+            fontWeight: 400
+          }}>
+            Banana Bread Calculator
+          </h1>
+          <p style={{ color: '#8B7355', fontSize: '1rem' }}>
+            Turn your overripe banana horde into something delicious.
+          </p>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem 2rem' }}>
         
-        {/* Skip Navigation */}
-        <a 
-          href="#main-content" 
-          onClick={skipToMain}
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded font-semibold z-50"
-        >
-          Skip to main content
-        </a>
+        {/* Hero Banana Counter */}
+        <div style={{
+          background: 'linear-gradient(135deg, #FFD45C 0%, #FFF2B8 30%, #FFD45C 70%, rgba(111, 78, 55, 0.3) 100%)',
+          borderRadius: '1rem',
+          padding: '2rem',
+          textAlign: 'center',
+          marginBottom: '2rem',
+          border: '2px solid #FFD45C'
+        }}>
+          <Badge style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            color: '#6F4E37',
+            border: '2px solid #6F4E37',
+            padding: '0.5rem 1rem',
+            fontSize: '1rem',
+            fontWeight: 600,
+            marginBottom: '1.5rem'
+          }}>
+            <span style={{ marginRight: '0.5rem' }}>{status.emoji}</span>
+            {status.message}
+          </Badge>
 
-        {/* Header */}
-        <header className="py-8 text-center" style={{backgroundColor: '#FFF8E7'}}>
-          <div className="max-w-4xl mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl mb-2" style={{fontFamily: 'Yellowtail, cursive', color: '#6F4E37'}}>
-              Banana Bread Calculator
-            </h1>
-            <p className="text-gray-600">
-              Turn your overripe banana horde into something delicious.
-            </p>
-          </div>
-        </header>
-
-        <main 
-          id="main-content"
-          ref={mainContentRef}
-          className="max-w-4xl mx-auto px-4 pb-8"
-          style={{backgroundColor: '#FFF8E7'}}
-          tabIndex={-1}
-          role="main"
-        >
-          {/* Hero Banana Counter */}
-          <section className="mb-8">
-            <div 
-              className="rounded-2xl p-8 text-center relative overflow-hidden"
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', marginBottom: '2rem' }}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleBananaCountChange(bananaCount - 1)}
               style={{
-                background: 'linear-gradient(135deg, #FFD45C 0%, #FFF2B8 30%, #FFD45C 70%, rgba(111, 78, 55, 0.3) 100%)',
-                border: '2px solid #FFD45C'
+                height: '4rem',
+                width: '4rem',
+                borderRadius: '50%',
+                border: '2px solid #6F4E37',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                color: '#6F4E37'
               }}
+              disabled={bananaCount <= 1}
             >
-              <Badge 
-                className="mb-6 px-4 py-2 text-base bg-white/95 text-deep-brown border-2 border-deep-brown shadow-sm font-semibold"
-                style={{color: '#6F4E37'}}
-              >
-                <span className="mr-2">{status.emoji}</span>
-                {status.message}
-              </Badge>
+              <Minus style={{ height: '2rem', width: '2rem' }} />
+            </Button>
+            
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                fontSize: '5rem',
+                fontWeight: 'bold',
+                color: '#6F4E37',
+                lineHeight: 1,
+                marginBottom: '0.5rem',
+                textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)'
+              }}>
+                {bananaCount}
+              </div>
+              <div style={{
+                fontSize: '1.125rem',
+                fontWeight: 600,
+                backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                borderRadius: '9999px',
+                padding: '0.5rem 1rem',
+                color: '#6F4E37',
+                border: '1px solid rgba(111, 78, 55, 0.2)'
+              }}>
+                banana{bananaCount !== 1 ? 's' : ''} • {Math.round(bananaCount * 120)}g
+              </div>
+            </div>
+            
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleBananaCountChange(bananaCount + 1)}
+              style={{
+                height: '4rem',
+                width: '4rem',
+                borderRadius: '50%',
+                border: '2px solid #6F4E37',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                color: '#6F4E37'
+              }}
+              disabled={bananaCount >= 100}
+            >
+              <Plus style={{ height: '2rem', width: '2rem' }} />
+            </Button>
+          </div>
 
-              <div className="flex items-center justify-center gap-6 mb-8">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleBananaCountChange(bananaCount - 1)}
-                  className="h-16 w-16 rounded-full border-2 bg-white/95 hover:bg-deep-brown hover:text-white shadow"
-                  style={{borderColor: '#6F4E37', color: '#6F4E37'}}
-                  disabled={bananaCount <= 1}
-                >
-                  <Minus className="h-8 w-8" />
-                </Button>
-                
-                <div className="text-center">
-                  {isEditingBananaCount ? (
-                    <div className="relative">
-                      <Input
-                        ref={bananaInputRef}
-                        type="number"
-                        min="1"
-                        max="100"
-                        value={editingBananaValue}
-                        onChange={(e) => handleDirectBananaCountChange(e.target.value)}
-                        onBlur={handleBananaCountConfirm}
-                        onKeyDown={handleBananaCountKeyDown}
-                        className="w-64 h-40 text-center font-bold bg-transparent border-none focus:ring-0 text-8xl"
-                        style={{color: '#6F4E37'}}
-                      />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              borderRadius: '9999px',
+              border: '1px solid rgba(111, 78, 55, 0.3)',
+              padding: '0.5rem 1rem',
+              gap: '0.5rem'
+            }}>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#6F4E37' }}>
+                Total weight:
+              </span>
+              <Input
+                type="number"
+                min="120"
+                max="12000"
+                step="10"
+                value={bananaCount * 120}
+                onChange={(e) => handleBananaCountChange(Math.round(parseInt(e.target.value) / 120))}
+                style={{
+                  width: '4rem',
+                  textAlign: 'center',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  fontWeight: 600,
+                  color: '#6F4E37',
+                  padding: 0,
+                  margin: 0
+                }}
+              />
+              <span style={{ fontSize: '0.875rem', fontWeight: 'bold', color: '#6F4E37' }}>
+                g
+              </span>
+            </div>
+            
+            <Dialog>
+              <DialogTrigger style={{
+                fontSize: '0.875rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                borderRadius: '9999px',
+                padding: '0.5rem 0.75rem',
+                border: '1px solid rgba(111, 78, 55, 0.3)',
+                fontWeight: 500,
+                color: '#6F4E37',
+                cursor: 'pointer'
+              }}>
+                <HelpCircle style={{ height: '1rem', width: '1rem' }} />
+                Banana sizes
+              </DialogTrigger>
+              <DialogContent style={{ maxWidth: '32rem' }}>
+                <DialogHeader>
+                  <DialogTitle>Banana Size Guide</DialogTitle>
+                  <DialogDescription>
+                    This calculator assumes 120g medium bananas. Adjust the total weight for different sizes.
+                  </DialogDescription>
+                </DialogHeader>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <h4 style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Size Chart</h4>
+                    <div style={{ fontSize: '0.875rem', lineHeight: 1.5 }}>
+                      <div>Small: ~100g (6-6.5")</div>
+                      <div style={{ fontWeight: 600 }}>Medium: ~120g (7-8") ⭐</div>
+                      <div>Large: ~140g (8-9")</div>
+                      <div>X-Large: ~160g (9.5")</div>
                     </div>
-                  ) : (
-                    <div 
-                      className="text-8xl font-bold leading-none mb-2 cursor-pointer hover:scale-105 transition-all duration-300 select-none"
-                      style={{color: '#6F4E37', textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)'}}
-                      onClick={handleBananaCountClick}
-                      role="button"
-                      tabIndex={0}
-                    >
-                      {bananaCount}
+                  </div>
+                  <div>
+                    <h4 style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Quick Tips</h4>
+                    <div style={{ fontSize: '0.875rem', lineHeight: 1.5 }}>
+                      <div><strong>Weigh your bananas:</strong> Most accurate</div>
+                      <div><strong>No scale?</strong> Use the size guide</div>
+                      <div><strong>Mixed sizes?</strong> Enter total weight</div>
                     </div>
-                  )}
-                  <div 
-                    className="text-lg font-semibold bg-white/85 rounded-full px-4 py-2 shadow-sm border"
-                    style={{color: '#6F4E37', borderColor: 'rgba(111, 78, 55, 0.2)'}}
-                  >
-                    banana{bananaCount !== 1 ? 's' : ''} • {Math.round(bananaCount * 120)}g
                   </div>
                 </div>
-                
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleBananaCountChange(bananaCount + 1)}
-                  className="h-16 w-16 rounded-full border-2 bg-white/95 hover:bg-deep-brown hover:text-white shadow"
-                  style={{borderColor: '#6F4E37', color: '#6F4E37'}}
-                  disabled={bananaCount >= 100}
-                >
-                  <Plus className="h-8 w-8" />
-                </Button>
-              </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
 
-              <div className="flex items-center justify-center gap-4">
-                <div className="flex items-center bg-white/95 rounded-full border px-4 py-2" style={{borderColor: 'rgba(111, 78, 55, 0.3)'}}>
-                  <label className="text-sm font-semibold" style={{color: '#6F4E37'}}>
-                    Total weight:
-                  </label>
-                  <Input
-                    type="number"
-                    min="120"
-                    max="12000"
-                    step="10"
-                    value={gramAmount}
-                    onChange={(e) => handleGramChange(e.target.value)}
-                    className="w-16 text-center border-0 bg-transparent font-semibold focus:ring-0 p-0 mx-2"
-                    style={{color: '#6F4E37'}}
-                  />
-                  <span className="text-sm font-bold" style={{color: '#6F4E37'}}>
-                    g
-                  </span>
-                </div>
-                
-                <Dialog>
-                  <DialogTrigger className="text-sm flex items-center gap-1 bg-white/85 rounded-full px-3 py-2 border font-medium transition-all duration-200 shadow-sm hover:bg-deep-brown hover:text-white" style={{color: '#6F4E37', borderColor: 'rgba(111, 78, 55, 0.3)'}}>
-                    <HelpCircle className="h-4 w-4" />
-                    Banana sizes
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>Banana Size Guide</DialogTitle>
-                      <DialogDescription>
-                        This calculator assumes 120g medium bananas. Enter your total banana weight in grams for precise calculations.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Size Chart</h4>
-                        <div className="space-y-1 text-sm">
-                          <div>Small: ~100g (6-6.5")</div>
-                          <div className="font-semibold">Medium: ~120g (7-8") ⭐</div>
-                          <div>Large: ~140g (8-9")</div>
-                          <div>X-Large: ~160g (9.5")</div>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-2">Quick Tips</h4>
-                        <div className="space-y-1 text-sm">
-                          <div><strong>Weigh your bananas:</strong> Most accurate method</div>
-                          <div><strong>No scale?</strong> Use the size guide</div>
-                          <div><strong>Mixed sizes?</strong> Enter total weight</div>
-                          <div><strong>Quick entry:</strong> Click the big number!</div>
-                        </div>
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-
-              {inputError && (
-                <div 
-                  className="text-sm text-red-600 mt-2 bg-white/90 rounded px-3 py-1 inline-block border border-red-300 font-medium"
-                  role="alert"
-                >
-                  {inputError}
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* Desktop Layout - Side by Side */}
-          <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 mb-8">
-            {/* Recipe Card - Left Side */}
-            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold" style={{color: '#6F4E37'}}>
+        {/* Desktop Layout */}
+        <div style={{ display: 'none' }} className="lg:block">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            {/* Recipe Card */}
+            <div style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: '0.75rem',
+              border: '1px solid #E6D5B8',
+              padding: '1.5rem',
+              boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#6F4E37' }}>
                   Your Recipe
                 </h2>
                 <ToggleGroup 
                   type="single" 
                   value={isMetric ? "metric" : "us"} 
                   onValueChange={(value) => setIsMetric(value === "metric")}
-                  className="rounded-full p-1 border"
-                  style={{backgroundColor: 'rgba(255, 212, 92, 0.2)', borderColor: 'rgba(255, 212, 92, 0.3)'}}
+                  style={{
+                    borderRadius: '9999px',
+                    padding: '0.25rem',
+                    border: '1px solid rgba(255, 212, 92, 0.3)',
+                    backgroundColor: 'rgba(255, 212, 92, 0.2)'
+                  }}
                 >
-                  <ToggleGroupItem 
-                    value="metric" 
-                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
-                  >
+                  <ToggleGroupItem value="metric" style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
                     Metric
                   </ToggleGroupItem>
-                  <ToggleGroupItem 
-                    value="us" 
-                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
-                  >
+                  <ToggleGroupItem value="us" style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
                     US
                   </ToggleGroupItem>
                 </ToggleGroup>
               </div>
 
               {/* Wet Ingredients */}
-              <div className="mb-6">
-                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#FFD45C'}}></div>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#FFD45C' }}></div>
                   Wet Ingredients
                 </h3>
-                <div className="space-y-2">
-                  {wetIngredients.map((ingredient, index) => (
-                    <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
-                      <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
-                        {ingredient.value}
-                      </span>
-                    </div>
-                  ))}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Mashed bananas</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('banana')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Sugar</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('sugar')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Melted butter</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('butter')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Eggs</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('eggs')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Vanilla extract</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('vanilla')}</span>
+                  </div>
                 </div>
               </div>
 
               {/* Dry Ingredients */}
-              <div className="mb-6">
-                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#C9DAB7'}}></div>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#C9DAB7' }}></div>
                   Dry Ingredients
                 </h3>
-                <div className="space-y-2">
-                  {dryIngredients.map((ingredient, index) => (
-                    <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
-                      <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
-                        {ingredient.value}
-                      </span>
-                    </div>
-                  ))}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>All-purpose flour</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('flour')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Baking soda</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('bakingSoda')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Salt</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('salt')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Cinnamon (optional)</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('cinnamon')}</span>
+                  </div>
                 </div>
               </div>
 
               {/* Optional Add-ins */}
               <div>
-                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#E8F0E1'}}></div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#E8F0E1' }}></div>
                   Optional Add-ins
                 </h3>
-                <div className="space-y-2">
-                  <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                    <span className="text-gray-600">Chopped nuts</span>
-                    <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
-                      {getIngredientAmount('nuts')}
-                    </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#8B7355' }}>Chopped nuts</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>53g</span>
                   </div>
-                  <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                    <span className="text-gray-600">Chocolate chips</span>
-                    <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
-                      {getIngredientAmount('chocolate')}
-                    </span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#8B7355' }}>Chocolate chips</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>53g</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Baking Info and Quick Method */}
-            <div className="space-y-6">
+            {/* Right Column */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {/* Baking Info */}
-              <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-                <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
+              <div style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: '0.75rem',
+                border: '1px solid #E6D5B8',
+                padding: '1.5rem',
+                boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+              }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '1rem', color: '#6F4E37' }}>
                   Baking Info
                 </h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Pan size</span>
-                    <span className="font-medium text-right" style={{color: '#6F4E37'}}>{bakingInfo.panSize}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#8B7355' }}>Pan size</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37', textAlign: 'right' }}>{bakingInfo.panSize}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Temperature</span>
-                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#8B7355' }}>Temperature</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.temp}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Time</span>
-                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#8B7355' }}>Time</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.time}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Batter weight</span>
-                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.batterWeight}</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#8B7355' }}>Batter weight</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.batterWeight}</span>
                   </div>
                 </div>
               </div>
 
               {/* Quick Method */}
-              <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-                <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
+              <div style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: '0.75rem',
+                border: '1px solid #E6D5B8',
+                padding: '1.5rem',
+                boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+              }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '1rem', color: '#6F4E37' }}>
                   Quick Method
                 </h3>
-                <ol className="space-y-2 text-sm text-gray-600">
+                <ol style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem', color: '#8B7355' }}>
                   <li>
-                    <strong>1.</strong> Preheat oven to <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
+                    <strong>1.</strong> Preheat oven to <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.temp}</span>
                   </li>
                   <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
                   <li><strong>3.</strong> Combine dry ingredients separately</li>
                   <li><strong>4.</strong> Mix wet and dry until just combined</li>
                   <li>
-                    <strong>5.</strong> Pour into greased pan, bake <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
+                    <strong>5.</strong> Pour into greased pan, bake <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.time}</span>
                   </li>
                   <li><strong>6.</strong> Cool before removing from pan</li>
                 </ol>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Mobile Layout - Stacked */}
-          <div className="lg:hidden space-y-6">
-            {/* Recipe Card - Full Width on Mobile */}
-            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold" style={{color: '#6F4E37'}}>
-                  Your Recipe
-                </h2>
-                <ToggleGroup 
-                  type="single" 
-                  value={isMetric ? "metric" : "us"} 
-                  onValueChange={(value) => setIsMetric(value === "metric")}
-                  className="rounded-full p-1 border"
-                  style={{backgroundColor: 'rgba(255, 212, 92, 0.2)', borderColor: 'rgba(255, 212, 92, 0.3)'}}
-                >
-                  <ToggleGroupItem 
-                    value="metric" 
-                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
-                  >
-                    Metric
-                  </ToggleGroupItem>
-                  <ToggleGroupItem 
-                    value="us" 
-                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
-                  >
-                    US
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              </div>
-
-              {/* All ingredients sections for mobile */}
-              <div className="space-y-6">
-                {/* Wet Ingredients */}
-                <div>
-                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#FFD45C'}}></div>
-                    Wet Ingredients
-                  </h3>
-                  <div className="space-y-2">
-                    {wetIngredients.map((ingredient, index) => (
-                      <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
-                        <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
-                          {ingredient.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Dry Ingredients */}
-                <div>
-                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#C9DAB7'}}></div>
-                    Dry Ingredients
-                  </h3>
-                  <div className="space-y-2">
-                    {dryIngredients.map((ingredient, index) => (
-                      <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
-                        <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
-                          {ingredient.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Optional Add-ins */}
-                <div>
-                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
-                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#E8F0E1'}}></div>
-                    Optional Add-ins
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-gray-600">Chopped nuts</span>
-                      <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
-                        {getIngredientAmount('nuts')}
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-gray-600">Chocolate chips</span>
-                      <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
-                        {getIngredientAmount('chocolate')}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Baking Info - Mobile */}
-            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-              <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
-                Baking Info
-              </h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Pan size</span>
-                  <span className="font-medium text-right" style={{color: '#6F4E37'}}>{bakingInfo.panSize}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Temperature</span>
-                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Time</span>
-                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Batter weight</span>
-                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.batterWeight}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Method - Mobile */}
-            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
-              <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
-                Quick Method
-              </h3>
-              <ol className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <strong>1.</strong> Preheat oven to <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
-                </li>
-                <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
-                <li><strong>3.</strong> Combine dry ingredients separately</li>
-                <li><strong>4.</strong> Mix wet and dry until just combined</li>
-                <li>
-                  <strong>5.</strong> Pour into greased pan, bake <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
-                </li>
-                <li><strong>6.</strong> Cool before removing from pan</li>
-              </ol>
-            </div>
-          </div>
-
-          {/* Pro Tip - Full Width */}
-          <div className="rounded-xl border p-4 shadow-sm" style={{backgroundColor: '#FFF2B8', borderColor: 'rgba(255, 212, 92, 0.3)'}}>
-            <h4 className="font-semibold mb-2" style={{color: '#6F4E37'}}>
-              <span role="img" aria-label="Light bulb">💡</span> Pro Tip
-            </h4>
-            <p className="text-sm" style={{color: '#6F4E37'}}>
-              The more brown spots on your bananas, the sweeter your bread will be!
-            </p>
-          </div>
-        </main>
-
-        {/* Footer */}
-        <footer className="py-6 mt-12 text-center border-t" style={{backgroundColor: '#F5F0E1', borderColor: 'rgba(230, 213, 184, 0.3)'}}>
-          <div className="max-w-4xl mx-auto px-4">
-            <p className="text-sm text-gray-600">
-              Made with <span role="img" aria-label="bread">🍞</span> by{' '}
-              <a 
-                href="https://titania.co.nz" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="font-medium hover:text-primary"
-                style={{color: '#6F4E37'}}
+        {/* Mobile Layout */}
+        <div className="lg:hidden" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Recipe Card - Mobile */}
+          <div style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: '0.75rem',
+            border: '1px solid #E6D5B8',
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#6F4E37' }}>
+                Your Recipe
+              </h2>
+              <ToggleGroup 
+                type="single" 
+                value={isMetric ? "metric" : "us"} 
+                onValueChange={(value) => setIsMetric(value === "metric")}
+                style={{
+                  borderRadius: '9999px',
+                  padding: '0.25rem',
+                  border: '1px solid rgba(255, 212, 92, 0.3)',
+                  backgroundColor: 'rgba(255, 212, 92, 0.2)'
+                }}
               >
-                Steph
-              </a>.
-            </p>
+                <ToggleGroupItem value="metric" style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
+                  Metric
+                </ToggleGroupItem>
+                <ToggleGroupItem value="us" style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
+                  US
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+
+            {/* All ingredients sections for mobile */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {/* Wet Ingredients */}
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#FFD45C' }}></div>
+                  Wet Ingredients
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Mashed bananas</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('banana')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Sugar</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('sugar')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Melted butter</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('butter')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Eggs</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('eggs')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Vanilla extract</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('vanilla')}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dry Ingredients */}
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#C9DAB7' }}></div>
+                  Dry Ingredients
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>All-purpose flour</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('flour')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Baking soda</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('bakingSoda')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Salt</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('salt')}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#6F4E37' }}>Cinnamon (optional)</span>
+                    <span style={{ fontWeight: 600, color: '#6F4E37' }}>{getIngredientAmount('cinnamon')}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Optional Add-ins */}
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6F4E37' }}>
+                  <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', backgroundColor: '#E8F0E1' }}></div>
+                  Optional Add-ins
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#8B7355' }}>Chopped nuts</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>53g</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '0.5rem 0', fontSize: '0.875rem' }}>
+                    <span style={{ color: '#8B7355' }}>Chocolate chips</span>
+                    <span style={{ fontWeight: 500, color: '#6F4E37' }}>53g</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </footer>
+
+          {/* Baking Info - Mobile */}
+          <div style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: '0.75rem',
+            border: '1px solid #E6D5B8',
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+          }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '1rem', color: '#6F4E37' }}>
+              Baking Info
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#8B7355' }}>Pan size</span>
+                <span style={{ fontWeight: 500, color: '#6F4E37', textAlign: 'right' }}>{bakingInfo.panSize}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#8B7355' }}>Temperature</span>
+                <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.temp}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#8B7355' }}>Time</span>
+                <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.time}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#8B7355' }}>Batter weight</span>
+                <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.batterWeight}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Method - Mobile */}
+          <div style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: '0.75rem',
+            border: '1px solid #E6D5B8',
+            padding: '1.5rem',
+            boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)'
+          }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '1rem', color: '#6F4E37' }}>
+              Quick Method
+            </h3>
+            <ol style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem', color: '#8B7355' }}>
+              <li>
+                <strong>1.</strong> Preheat oven to <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.temp}</span>
+              </li>
+              <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
+              <li><strong>3.</strong> Combine dry ingredients separately</li>
+              <li><strong>4.</strong> Mix wet and dry until just combined</li>
+              <li>
+                <strong>5.</strong> Pour into greased pan, bake <span style={{ fontWeight: 500, color: '#6F4E37' }}>{bakingInfo.time}</span>
+              </li>
+              <li><strong>6.</strong> Cool before removing from pan</li>
+            </ol>
+          </div>
+        </div>
+
+        {/* Pro Tip - Full Width */}
+        <div style={{
+          borderRadius: '0.75rem',
+          border: '1px solid rgba(255, 212, 92, 0.3)',
+          padding: '1rem',
+          boxShadow: '0 2px 8px rgba(111, 78, 55, 0.08)',
+          backgroundColor: '#FFF2B8',
+          marginTop: '1.5rem'
+        }}>
+          <h4 style={{ fontWeight: 600, marginBottom: '0.5rem', color: '#6F4E37' }}>
+            <span role="img" aria-label="Light bulb">💡</span> Pro Tip
+          </h4>
+          <p style={{ fontSize: '0.875rem', color: '#6F4E37' }}>
+            The more brown spots on your bananas, the sweeter your bread will be!
+          </p>
+        </div>
       </div>
-    </TooltipProvider>
+
+      {/* Footer */}
+      <div style={{
+        padding: '1.5rem 0',
+        marginTop: '3rem',
+        textAlign: 'center',
+        borderTop: '1px solid rgba(230, 213, 184, 0.3)',
+        backgroundColor: '#F5F0E1'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <p style={{ fontSize: '0.875rem', color: '#8B7355' }}>
+            Made with <span role="img" aria-label="bread">🍞</span> by{' '}
+            <a 
+              href="https://titania.co.nz" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ fontWeight: 500, color: '#6F4E37' }}
+            >
+              Steph
+            </a>.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
