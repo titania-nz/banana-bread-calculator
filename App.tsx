@@ -293,7 +293,7 @@ export default function App() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen bg-warm-cream">
+      <div className="min-h-screen" style={{backgroundColor: '#F5F0E1'}}>
         {/* Screen Reader Announcements */}
         <div 
           className="sr-only" 
@@ -308,20 +308,18 @@ export default function App() {
         <a 
           href="#main-content" 
           onClick={skipToMain}
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-warm font-semibold z-50"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded font-semibold z-50"
         >
           Skip to main content
         </a>
 
-        {/* Compact Header */}
-        <header className="bg-white border-b border-border/30 py-6 shadow-warm" role="banner">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h1 
-              className="text-3xl md:text-4xl lg:text-5xl text-deep-brown mb-2 font-display"
-            >
+        {/* Header */}
+        <header className="py-8 text-center" style={{backgroundColor: '#FFF8E7'}}>
+          <div className="max-w-4xl mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl mb-2" style={{fontFamily: 'Yellowtail, cursive', color: '#6F4E37'}}>
               Banana Bread Calculator
             </h1>
-            <p className="text-muted-foreground font-light">
+            <p className="text-gray-600">
               Turn your overripe banana horde into something delicious.
             </p>
           </div>
@@ -330,36 +328,25 @@ export default function App() {
         <main 
           id="main-content"
           ref={mainContentRef}
-          className="max-w-4xl mx-auto px-4 pb-8 pt-4"
+          className="max-w-4xl mx-auto px-4 pb-8"
+          style={{backgroundColor: '#FFF8E7'}}
           tabIndex={-1}
           role="main"
         >
-          {/* Hero Banana Counter with Tile Background */}
-          <section 
-            className="banana-counter-hero text-center mb-12 relative" 
-            aria-labelledby="banana-counter-heading"
-            aria-describedby="banana-counter-description"
-          >
-            <div className="relative z-10 py-12 px-8">
-              <h2 
-                id="banana-counter-heading" 
-                className="sr-only"
-              >
-                Banana Counter
-              </h2>
-              <p 
-                id="banana-counter-description" 
-                className="sr-only"
-              >
-                Adjust the number of bananas to automatically scale your banana bread recipe. Use the plus and minus buttons, enter grams directly, or click the number to edit.
-              </p>
+          {/* Hero Banana Counter */}
+          <section className="mb-8">
+            <div 
+              className="rounded-2xl p-8 text-center relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #FFD45C 0%, #FFF2B8 30%, #FFD45C 70%, rgba(111, 78, 55, 0.3) 100%)',
+                border: '2px solid #FFD45C'
+              }}
+            >
               <Badge 
-                className="mb-6 px-4 py-2 text-base bg-white/95 backdrop-blur-sm text-deep-brown border-2 border-deep-brown shadow-sm font-semibold"
-                role="status"
-                aria-live="polite"
-                aria-label={`Current status: ${status.message}`}
+                className="mb-6 px-4 py-2 text-base bg-white/95 text-deep-brown border-2 border-deep-brown shadow-sm font-semibold"
+                style={{color: '#6F4E37'}}
               >
-                <span className="mr-2" role="img" aria-hidden="true">{status.emoji}</span>
+                <span className="mr-2">{status.emoji}</span>
                 {status.message}
               </Badge>
 
@@ -368,9 +355,9 @@ export default function App() {
                   variant="outline"
                   size="icon"
                   onClick={() => handleBananaCountChange(bananaCount - 1)}
-                  className="h-16 w-16 rounded-full border-2 border-deep-brown bg-white/95 backdrop-blur-sm hover:bg-deep-brown hover:text-white shadow-warm text-deep-brown"
+                  className="h-16 w-16 rounded-full border-2 bg-white/95 hover:bg-deep-brown hover:text-white shadow"
+                  style={{borderColor: '#6F4E37', color: '#6F4E37'}}
                   disabled={bananaCount <= 1}
-                  aria-label={`Decrease to ${bananaCount - 1} bananas`}
                 >
                   <Minus className="h-8 w-8" />
                 </Button>
@@ -387,56 +374,24 @@ export default function App() {
                         onChange={(e) => handleDirectBananaCountChange(e.target.value)}
                         onBlur={handleBananaCountConfirm}
                         onKeyDown={handleBananaCountKeyDown}
-                        className="w-64 h-40 text-center font-bold bg-transparent border-none text-deep-brown focus:ring-0 focus:ring-offset-0 focus:border-none focus:outline-none resize-none appearance-none p-0 shadow-none"
-                        style={{ 
-                          fontFamily: '"Open Sans", sans-serif', 
-                          fontWeight: 700, 
-                          fontSize: 'clamp(5rem, 12vw, 8rem)',
-                          lineHeight: '1',
-                          textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)',
-                          background: 'transparent'
-                        }}
-                        aria-label="Edit number of bananas"
+                        className="w-64 h-40 text-center font-bold bg-transparent border-none focus:ring-0 text-8xl"
+                        style={{color: '#6F4E37'}}
                       />
-                      <div className="absolute inset-0 bg-white/90 backdrop-blur-sm border-2 border-deep-brown/30 rounded-2xl shadow-warm -z-10 pointer-events-none ring-2 ring-primary/50" />
-                      <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-sm text-deep-brown/70 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg font-medium" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}>
-                        Press Enter to save, Esc to cancel
-                      </div>
                     </div>
                   ) : (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div 
-                          className="relative text-8xl font-bold text-deep-brown leading-none mb-2 drop-shadow-lg cursor-pointer hover:scale-105 transition-all duration-300 select-none group"
-                          style={{ textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)' }}
-                          onClick={handleBananaCountClick}
-                          role="button"
-                          tabIndex={0}
-                          aria-label={`${bananaCount} bananas. Click to edit.`}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
-                              handleBananaCountClick();
-                            }
-                          }}
-                        >
-                          {bananaCount}
-                          {/* Edit indicator that appears on hover */}
-                          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-deep-brown/60 bg-white/70 backdrop-blur-sm px-2 py-1 rounded font-medium pointer-events-none">
-                            Click to edit
-                          </div>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Click to enter number of bananas directly</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    <div 
+                      className="text-8xl font-bold leading-none mb-2 cursor-pointer hover:scale-105 transition-all duration-300 select-none"
+                      style={{color: '#6F4E37', textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)'}}
+                      onClick={handleBananaCountClick}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      {bananaCount}
+                    </div>
                   )}
                   <div 
-                    className="text-lg text-deep-brown font-semibold bg-white/85 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm border border-deep-brown/20"
-                    role="status"
-                    aria-live="polite"
-                    aria-label={`Total: ${bananaCount} banana${bananaCount !== 1 ? 's' : ''}, ${Math.round(bananaCount * 120)} grams`}
+                    className="text-lg font-semibold bg-white/85 rounded-full px-4 py-2 shadow-sm border"
+                    style={{color: '#6F4E37', borderColor: 'rgba(111, 78, 55, 0.2)'}}
                   >
                     banana{bananaCount !== 1 ? 's' : ''} • {Math.round(bananaCount * 120)}g
                   </div>
@@ -446,18 +401,17 @@ export default function App() {
                   variant="outline"
                   size="icon"
                   onClick={() => handleBananaCountChange(bananaCount + 1)}
-                  className="h-16 w-16 rounded-full border-2 border-deep-brown bg-white/95 backdrop-blur-sm hover:bg-deep-brown hover:text-white shadow-warm text-deep-brown"
+                  className="h-16 w-16 rounded-full border-2 bg-white/95 hover:bg-deep-brown hover:text-white shadow"
+                  style={{borderColor: '#6F4E37', color: '#6F4E37'}}
                   disabled={bananaCount >= 100}
-                  aria-label={`Increase to ${bananaCount + 1} bananas`}
                 >
                   <Plus className="h-8 w-8" />
                 </Button>
               </div>
 
               <div className="flex items-center justify-center gap-4">
-                {/* Prominent Gram Input Field */}
-                <div className="flex items-center bg-white/95 backdrop-blur-sm rounded-full border border-deep-brown/30 shadow-sm px-4 py-2">
-                  <label className="text-sm font-semibold text-deep-brown">
+                <div className="flex items-center bg-white/95 rounded-full border px-4 py-2" style={{borderColor: 'rgba(111, 78, 55, 0.3)'}}>
+                  <label className="text-sm font-semibold" style={{color: '#6F4E37'}}>
                     Total weight:
                   </label>
                   <Input
@@ -467,20 +421,16 @@ export default function App() {
                     step="10"
                     value={gramAmount}
                     onChange={(e) => handleGramChange(e.target.value)}
-                    className="w-16 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0 mx-2"
-                    aria-label="Total weight in grams. Enter value between 120 and 12000"
-                    aria-describedby="gram-input-description"
+                    className="w-16 text-center border-0 bg-transparent font-semibold focus:ring-0 p-0 mx-2"
+                    style={{color: '#6F4E37'}}
                   />
-                  <span id="gram-input-description" className="sr-only">
-                    Enter the total weight of your bananas in grams. Minimum 120g for 1 banana, maximum 12000g for 100 bananas.
-                  </span>
-                  <span className="text-sm font-bold text-deep-brown">
+                  <span className="text-sm font-bold" style={{color: '#6F4E37'}}>
                     g
                   </span>
                 </div>
                 
                 <Dialog>
-                  <DialogTrigger className="text-deep-brown hover:text-white hover:bg-deep-brown text-sm flex items-center gap-1 bg-white/85 backdrop-blur-sm rounded-full px-3 py-2 border border-deep-brown/30 font-medium transition-all duration-200 shadow-sm">
+                  <DialogTrigger className="text-sm flex items-center gap-1 bg-white/85 rounded-full px-3 py-2 border font-medium transition-all duration-200 shadow-sm hover:bg-deep-brown hover:text-white" style={{color: '#6F4E37', borderColor: 'rgba(111, 78, 55, 0.3)'}}>
                     <HelpCircle className="h-4 w-4" />
                     Banana sizes
                   </DialogTrigger>
@@ -517,10 +467,8 @@ export default function App() {
 
               {inputError && (
                 <div 
-                  className="text-sm text-destructive mt-2 bg-white/90 backdrop-blur-sm rounded px-3 py-1 inline-block border border-destructive/30 font-medium"
+                  className="text-sm text-red-600 mt-2 bg-white/90 rounded px-3 py-1 inline-block border border-red-300 font-medium"
                   role="alert"
-                  aria-live="assertive"
-                  id="input-error"
                 >
                   {inputError}
                 </div>
@@ -528,194 +476,302 @@ export default function App() {
             </div>
           </section>
 
-          {/* Recipe Grid */}
-          <div className="space-y-8">
-            {/* Recipe Card - Full Width */}
-            <article className="card-warm p-6">
+          {/* Desktop Layout - Side by Side */}
+          <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 mb-8">
+            {/* Recipe Card - Left Side */}
+            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-deep-brown">
+                <h2 className="text-xl font-bold" style={{color: '#6F4E37'}}>
                   Your Recipe
-                  <span className="sr-only">for {bananaCount} banana{bananaCount !== 1 ? 's' : ''}</span>
                 </h2>
-                <fieldset>
-                  <legend className="sr-only">Measurement system</legend>
-                  <ToggleGroup 
-                    type="single" 
-                    value={isMetric ? "metric" : "us"} 
-                    onValueChange={(value) => setIsMetric(value === "metric")}
-                    className="bg-primary/20 rounded-full p-1 border border-primary/30"
-                    aria-label="Choose measurement system"
+                <ToggleGroup 
+                  type="single" 
+                  value={isMetric ? "metric" : "us"} 
+                  onValueChange={(value) => setIsMetric(value === "metric")}
+                  className="rounded-full p-1 border"
+                  style={{backgroundColor: 'rgba(255, 212, 92, 0.2)', borderColor: 'rgba(255, 212, 92, 0.3)'}}
+                >
+                  <ToggleGroupItem 
+                    value="metric" 
+                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
                   >
-                    <ToggleGroupItem 
-                      value="metric" 
-                      className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
-                      aria-label="Metric measurements"
-                    >
-                      Metric
-                    </ToggleGroupItem>
-                    <ToggleGroupItem 
-                      value="us" 
-                      className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
-                      aria-label="US measurements"
-                    >
-                      US
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </fieldset>
+                    Metric
+                  </ToggleGroupItem>
+                  <ToggleGroupItem 
+                    value="us" 
+                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
+                  >
+                    US
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </div>
 
-              {/* All Ingredients in Single Column */}
-              <div className="space-y-6">
-                {/* Wet Ingredients Section */}
-                <section aria-labelledby="wet-ingredients-heading">
-                  <h3 id="wet-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
-                    Wet Ingredients
-                  </h3>
-                  <ul className="space-y-2" role="list">
-                    {wetIngredients.map((ingredient, index) => (
-                      <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span className="text-deep-brown font-normal">
-                          {ingredient.name}
-                        </span>
-                        <span 
-                          className="font-semibold text-deep-brown tabular-nums"
-                          aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
-                        >
-                          {ingredient.value}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-
-                {/* Dry Ingredients Section */}
-                <section aria-labelledby="dry-ingredients-heading">
-                  <h3 id="dry-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-secondary rounded-full" aria-hidden="true"></div>
-                    Dry Ingredients
-                  </h3>
-                  <ul className="space-y-2" role="list">
-                    {dryIngredients.map((ingredient, index) => (
-                      <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span className="text-deep-brown font-normal">
-                          {ingredient.name}
-                        </span>
-                        <span 
-                          className="font-semibold text-deep-brown tabular-nums"
-                          aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
-                        >
-                          {ingredient.value}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-
-                {/* Optional Add-ins Section */}
-                <section aria-labelledby="optional-ingredients-heading">
-                  <h3 id="optional-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" aria-hidden="true"></div>
-                    Optional Add-ins
-                  </h3>
-                  <ul className="space-y-2" role="list">
-                    <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-muted-foreground font-normal">
-                        Chopped nuts
+              {/* Wet Ingredients */}
+              <div className="mb-6">
+                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#FFD45C'}}></div>
+                  Wet Ingredients
+                </h3>
+                <div className="space-y-2">
+                  {wetIngredients.map((ingredient, index) => (
+                    <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
+                      <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
+                        {ingredient.value}
                       </span>
-                      <span 
-                        className="font-medium text-deep-brown tabular-nums"
-                        aria-label={`${getIngredientAmount('nuts')} of chopped nuts`}
-                      >
-                        {getIngredientAmount('nuts')}
-                      </span>
-                    </li>
-                    <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-muted-foreground font-normal">
-                        Chocolate chips
-                      </span>
-                      <span 
-                        className="font-medium text-deep-brown tabular-nums"
-                        aria-label={`${getIngredientAmount('chocolate')} of chocolate chips`}
-                      >
-                        {getIngredientAmount('chocolate')}
-                      </span>
-                    </li>
-                  </ul>
-                </section>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </article>
 
-            {/* Bottom Cards Grid - Side by Side on Desktop */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Baking Info Card */}
-              <section className="card-warm p-6" aria-labelledby="baking-info-heading">
-                <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4">
+              {/* Dry Ingredients */}
+              <div className="mb-6">
+                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#C9DAB7'}}></div>
+                  Dry Ingredients
+                </h3>
+                <div className="space-y-2">
+                  {dryIngredients.map((ingredient, index) => (
+                    <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
+                      <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
+                        {ingredient.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Optional Add-ins */}
+              <div>
+                <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                  <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#E8F0E1'}}></div>
+                  Optional Add-ins
+                </h3>
+                <div className="space-y-2">
+                  <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                    <span className="text-gray-600">Chopped nuts</span>
+                    <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
+                      {getIngredientAmount('nuts')}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                    <span className="text-gray-600">Chocolate chips</span>
+                    <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
+                      {getIngredientAmount('chocolate')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Baking Info and Quick Method */}
+            <div className="space-y-6">
+              {/* Baking Info */}
+              <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
+                <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
                   Baking Info
                 </h3>
-                <dl className="space-y-3 text-sm">
+                <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Pan size</dt>
-                    <dd className="font-medium text-deep-brown text-right">{bakingInfo.panSize}</dd>
+                    <span className="text-gray-600">Pan size</span>
+                    <span className="font-medium text-right" style={{color: '#6F4E37'}}>{bakingInfo.panSize}</span>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Temperature</dt>
-                    <dd className="font-medium text-deep-brown">{bakingInfo.temp}</dd>
+                    <span className="text-gray-600">Temperature</span>
+                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Time</dt>
-                    <dd className="font-medium text-deep-brown">{bakingInfo.time}</dd>
+                    <span className="text-gray-600">Time</span>
+                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Batter weight</dt>
-                    <dd className="font-medium text-deep-brown">{bakingInfo.batterWeight}</dd>
+                    <span className="text-gray-600">Batter weight</span>
+                    <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.batterWeight}</span>
                   </div>
-                </dl>
-              </section>
+                </div>
+              </div>
 
-              {/* Quick Method Card */}
-              <section className="card-warm p-6" aria-labelledby="quick-method-heading">
-                <h3 id="quick-method-heading" className="text-base font-bold text-deep-brown mb-4">
+              {/* Quick Method */}
+              <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
+                <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
                   Quick Method
                 </h3>
-                <ol className="space-y-2 text-sm text-muted-foreground font-light">
+                <ol className="space-y-2 text-sm text-gray-600">
                   <li>
-                    <strong>1.</strong> Preheat oven to <span className="font-medium text-deep-brown">{bakingInfo.temp}</span>
+                    <strong>1.</strong> Preheat oven to <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
                   </li>
                   <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
                   <li><strong>3.</strong> Combine dry ingredients separately</li>
                   <li><strong>4.</strong> Mix wet and dry until just combined</li>
                   <li>
-                    <strong>5.</strong> Pour into greased pan, bake <span className="font-medium text-deep-brown">{bakingInfo.time}</span>
+                    <strong>5.</strong> Pour into greased pan, bake <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
                   </li>
                   <li><strong>6.</strong> Cool before removing from pan</li>
                 </ol>
-              </section>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout - Stacked */}
+          <div className="lg:hidden space-y-6">
+            {/* Recipe Card - Full Width on Mobile */}
+            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold" style={{color: '#6F4E37'}}>
+                  Your Recipe
+                </h2>
+                <ToggleGroup 
+                  type="single" 
+                  value={isMetric ? "metric" : "us"} 
+                  onValueChange={(value) => setIsMetric(value === "metric")}
+                  className="rounded-full p-1 border"
+                  style={{backgroundColor: 'rgba(255, 212, 92, 0.2)', borderColor: 'rgba(255, 212, 92, 0.3)'}}
+                >
+                  <ToggleGroupItem 
+                    value="metric" 
+                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
+                  >
+                    Metric
+                  </ToggleGroupItem>
+                  <ToggleGroupItem 
+                    value="us" 
+                    className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground border-0"
+                  >
+                    US
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+
+              {/* All ingredients sections for mobile */}
+              <div className="space-y-6">
+                {/* Wet Ingredients */}
+                <div>
+                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#FFD45C'}}></div>
+                    Wet Ingredients
+                  </h3>
+                  <div className="space-y-2">
+                    {wetIngredients.map((ingredient, index) => (
+                      <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                        <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
+                        <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
+                          {ingredient.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Dry Ingredients */}
+                <div>
+                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#C9DAB7'}}></div>
+                    Dry Ingredients
+                  </h3>
+                  <div className="space-y-2">
+                    {dryIngredients.map((ingredient, index) => (
+                      <div key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                        <span style={{color: '#6F4E37'}}>{ingredient.name}</span>
+                        <span className="font-semibold tabular-nums" style={{color: '#6F4E37'}}>
+                          {ingredient.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Optional Add-ins */}
+                <div>
+                  <h3 className="text-base font-semibold mb-3 flex items-center gap-2" style={{color: '#6F4E37'}}>
+                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#E8F0E1'}}></div>
+                    Optional Add-ins
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span className="text-gray-600">Chopped nuts</span>
+                      <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
+                        {getIngredientAmount('nuts')}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span className="text-gray-600">Chocolate chips</span>
+                      <span className="font-medium tabular-nums" style={{color: '#6F4E37'}}>
+                        {getIngredientAmount('chocolate')}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Pro Tip Card - Full Width */}
-            <section className="bg-soft-yellow rounded-warm-lg border border-primary/30 p-4 shadow-warm" aria-labelledby="pro-tip-heading">
-              <h4 id="pro-tip-heading" className="font-semibold text-deep-brown mb-2">
-                <span role="img" aria-label="Light bulb">💡</span> Pro Tip
-              </h4>
-              <p className="text-sm text-deep-brown font-light">
-                The more brown spots on your bananas, the sweeter your bread will be!
-              </p>
-            </section>
+            {/* Baking Info - Mobile */}
+            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
+              <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
+                Baking Info
+              </h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Pan size</span>
+                  <span className="font-medium text-right" style={{color: '#6F4E37'}}>{bakingInfo.panSize}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Temperature</span>
+                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Time</span>
+                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Batter weight</span>
+                  <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.batterWeight}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Method - Mobile */}
+            <div className="bg-white rounded-xl border p-6 shadow-sm" style={{borderColor: '#E6D5B8'}}>
+              <h3 className="text-base font-bold mb-4" style={{color: '#6F4E37'}}>
+                Quick Method
+              </h3>
+              <ol className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <strong>1.</strong> Preheat oven to <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.temp}</span>
+                </li>
+                <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
+                <li><strong>3.</strong> Combine dry ingredients separately</li>
+                <li><strong>4.</strong> Mix wet and dry until just combined</li>
+                <li>
+                  <strong>5.</strong> Pour into greased pan, bake <span className="font-medium" style={{color: '#6F4E37'}}>{bakingInfo.time}</span>
+                </li>
+                <li><strong>6.</strong> Cool before removing from pan</li>
+              </ol>
+            </div>
+          </div>
+
+          {/* Pro Tip - Full Width */}
+          <div className="rounded-xl border p-4 shadow-sm" style={{backgroundColor: '#FFF2B8', borderColor: 'rgba(255, 212, 92, 0.3)'}}>
+            <h4 className="font-semibold mb-2" style={{color: '#6F4E37'}}>
+              <span role="img" aria-label="Light bulb">💡</span> Pro Tip
+            </h4>
+            <p className="text-sm" style={{color: '#6F4E37'}}>
+              The more brown spots on your bananas, the sweeter your bread will be!
+            </p>
           </div>
         </main>
 
-        {/* Compact Footer */}
-        <footer className="bg-warm-beige border-t border-border/30 py-6 mt-12 shadow-warm" role="contentinfo">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-sm text-muted-foreground font-light">
+        {/* Footer */}
+        <footer className="py-6 mt-12 text-center border-t" style={{backgroundColor: '#F5F0E1', borderColor: 'rgba(230, 213, 184, 0.3)'}}>
+          <div className="max-w-4xl mx-auto px-4">
+            <p className="text-sm text-gray-600">
               Made with <span role="img" aria-label="bread">🍞</span> by{' '}
               <a 
                 href="https://titania.co.nz" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-deep-brown hover:text-primary font-medium"
-                aria-label="Visit Steph's website (opens in new tab)"
+                className="font-medium hover:text-primary"
+                style={{color: '#6F4E37'}}
               >
                 Steph
               </a>.
