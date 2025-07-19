@@ -274,7 +274,6 @@ export default function App() {
 
   const status = getBananaStatus();
   const bakingInfo = getBakingInfo();
-
   return (
     <TooltipProvider delayDuration={300}>
       <div className="min-h-screen bg-red-500">
