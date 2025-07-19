@@ -478,8 +478,9 @@ export default function App() {
   }, [structuredData, seoData, bananaCount]);
 
   return (
+  return (
     <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen bg-warm-cream">
+      <div className="min-h-screen bg-red-500">
         {/* Screen Reader Announcements */}
         <div 
           className="sr-only" 
