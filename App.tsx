@@ -656,7 +656,7 @@ export default function App() {
                     step="10"
                     value={gramAmount}
                     onChange={(e) => handleGramChange(e.target.value)}
-                    className="w-20 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0"
+                    className="w-16 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0"
                     aria-label="Total weight in grams. Enter value between 120 and 12000"
                     aria-describedby="gram-input-description"
                     style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}
@@ -664,13 +664,13 @@ export default function App() {
                   <span id="gram-input-description" className="sr-only">
                     Enter the total weight of your bananas in grams. Minimum 120g for 1 banana, maximum 12000g for 100 bananas.
                   </span>
-                  <span className="text-lg font-bold text-deep-brown pr-3" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}>
+                  <span className="text-sm font-bold text-deep-brown pr-3" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}>
                     g
                   </span>
                 </div>
                 
                 <Dialog>
-                  <DialogTrigger className="text-deep-brown hover:text-white hover:bg-deep-brown underline text-sm flex items-center gap-1 bg-white/85 backdrop-blur-sm rounded-full px-3 py-2 border border-deep-brown/30 font-medium transition-all duration-200 shadow-sm">
+                  <DialogTrigger className="text-deep-brown hover:text-white hover:bg-deep-brown text-sm flex items-center gap-1 bg-white/85 backdrop-blur-sm rounded-full px-3 py-2 border border-deep-brown/30 font-medium transition-all duration-200 shadow-sm">
                     <HelpCircle className="h-4 w-4" />
                     Banana sizes
                   </DialogTrigger>
