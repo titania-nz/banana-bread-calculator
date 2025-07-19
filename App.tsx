@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { Plus, Minus, HelpCircle } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
-import { Switch } from './components/ui/switch';
+import { ToggleGroup, ToggleGroupItem } from './components/ui/toggle-group';
 import { Input } from './components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './components/ui/tooltip';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog';
@@ -645,7 +645,7 @@ export default function App() {
 
               <div className="flex items-center justify-center gap-4">
                 {/* Prominent Gram Input Field */}
-                <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-deep-brown shadow-sm">
+                <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-full border border-deep-brown/30 shadow-sm px-4 py-2">
                   <label className="text-sm font-medium text-deep-brown pl-3" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}>
                     Total weight:
                   </label>
@@ -656,7 +656,7 @@ export default function App() {
                     step="10"
                     value={gramAmount}
                     onChange={(e) => handleGramChange(e.target.value)}
-                    className="w-20 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0"
+                    className="w-20 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0"
                     aria-label="Total weight in grams. Enter value between 120 and 12000"
                     aria-describedby="gram-input-description"
                     style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}
@@ -670,7 +670,7 @@ export default function App() {
                 </div>
                 
                 <Dialog>
-                  <DialogTrigger className="text-deep-brown hover:text-white hover:bg-deep-brown underline text-sm flex items-center gap-1 bg-white/85 backdrop-blur-sm rounded px-3 py-2 border border-deep-brown/30 font-medium transition-all duration-200 shadow-sm">
+                  <DialogTrigger className="text-deep-brown hover:text-white hover:bg-deep-brown underline text-sm flex items-center gap-1 bg-white/85 backdrop-blur-sm rounded-full px-3 py-2 border border-deep-brown/30 font-medium transition-all duration-200 shadow-sm">
                     <HelpCircle className="h-4 w-4" />
                     Banana sizes
                   </DialogTrigger>
@@ -729,45 +729,30 @@ export default function App() {
                     Your Recipe
                     <span className="sr-only">for {bananaCount} banana{bananaCount !== 1 ? 's' : ''}</span>
                   </h2>
-                  <fieldset className="flex items-center gap-2 bg-warm-beige rounded-full p-1">
+                  <fieldset>
                     <legend className="sr-only">Measurement system</legend>
-                    <span 
-                      className={`px-3 py-1 rounded-full text-sm transition-all cursor-pointer select-none hover:bg-primary/10 ${isMetric ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-deep-brown'}`}
-                      onClick={() => setIsMetric(true)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label="Switch to metric measurements"
-                      aria-pressed={isMetric}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setIsMetric(true);
-                        }
-                      }}
+                    <ToggleGroup 
+                      type="single" 
+                      value={isMetric ? "metric" : "us"} 
+                      onValueChange={(value) => setIsMetric(value === "metric")}
+                      className="bg-warm-beige rounded-full p-1"
+                      aria-label="Choose measurement system"
                     >
-                      Metric
-                    </span>
-                    <Switch 
-                      checked={!isMetric} 
-                      onCheckedChange={(checked) => setIsMetric(!checked)}
-                      aria-label={`Currently showing ${isMetric ? 'metric' : 'US'} measurements. Toggle to switch between metric and US measurements`}
-                    />
-                    <span 
-                      className={`px-3 py-1 rounded-full text-sm transition-all cursor-pointer select-none hover:bg-primary/10 ${!isMetric ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-deep-brown'}`}
-                      onClick={() => setIsMetric(false)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label="Switch to US measurements"
-                      aria-pressed={!isMetric}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setIsMetric(false);
-                        }
-                      }}
-                    >
-                      US
-                    </span>
+                      <ToggleGroupItem 
+                        value="metric" 
+                        className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        aria-label="Metric measurements"
+                      >
+                        Metric
+                      </ToggleGroupItem>
+                      <ToggleGroupItem 
+                        value="us" 
+                        className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        aria-label="US measurements"
+                      >
+                        US
+                      </ToggleGroupItem>
+                    </ToggleGroup>
                   </fieldset>
                 </div>
 
@@ -781,7 +766,7 @@ export default function App() {
                     </h3>
                     <ul className="space-y-2" role="list">
                       {wetIngredients.map((ingredient, index) => (
-                        <li key={index} className="flex justify-between items-center py-2 text-sm">
+                        <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
                           <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
                             {ingredient.name}
                           </span>
@@ -805,7 +790,7 @@ export default function App() {
                     </h3>
                     <ul className="space-y-2" role="list">
                       {dryIngredients.map((ingredient, index) => (
-                        <li key={index} className="flex justify-between items-center py-2 text-sm">
+                        <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
                           <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
                             {ingredient.name}
                           </span>
@@ -828,7 +813,7 @@ export default function App() {
                       Optional Add-ins
                     </h3>
                     <ul className="space-y-2" role="list">
-                      <li className="flex justify-between items-center py-2 text-sm">
+                      <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
                         <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
                           Chopped nuts
                         </span>
@@ -840,7 +825,7 @@ export default function App() {
                           {getIngredientAmount('nuts')}
                         </span>
                       </li>
-                      <li className="flex justify-between items-center py-2 text-sm">
+                      <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
                         <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
                           Chocolate chips
                         </span>
