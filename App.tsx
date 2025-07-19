@@ -645,8 +645,8 @@ export default function App() {
 
               <div className="flex items-center justify-center gap-4">
                 {/* Prominent Gram Input Field */}
-                <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-full border border-deep-brown/30 shadow-sm px-4 py-2">
-                  <label className="text-sm font-medium text-deep-brown pl-3" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}>
+                <div className="flex items-center bg-white/95 backdrop-blur-sm rounded-full border border-deep-brown/30 shadow-sm px-4 py-2">
+                  <label className="text-sm font-medium text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}>
                     Total weight:
                   </label>
                   <Input
@@ -656,7 +656,7 @@ export default function App() {
                     step="10"
                     value={gramAmount}
                     onChange={(e) => handleGramChange(e.target.value)}
-                    className="w-16 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0"
+                    className="w-16 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0 mx-2"
                     aria-label="Total weight in grams. Enter value between 120 and 12000"
                     aria-describedby="gram-input-description"
                     style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}
@@ -664,7 +664,7 @@ export default function App() {
                   <span id="gram-input-description" className="sr-only">
                     Enter the total weight of your bananas in grams. Minimum 120g for 1 banana, maximum 12000g for 100 bananas.
                   </span>
-                  <span className="text-sm font-bold text-deep-brown pr-3" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}>
+                  <span className="text-sm font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}>
                     g
                   </span>
                 </div>
@@ -735,19 +735,19 @@ export default function App() {
                       type="single" 
                       value={isMetric ? "metric" : "us"} 
                       onValueChange={(value) => setIsMetric(value === "metric")}
-                      className="bg-primary/20 rounded-full p-1"
+                      className="bg-primary/20 rounded-full p-1 border border-primary/30"
                       aria-label="Choose measurement system"
                     >
                       <ToggleGroupItem 
                         value="metric" 
-                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
                         aria-label="Metric measurements"
                       >
                         Metric
                       </ToggleGroupItem>
                       <ToggleGroupItem 
                         value="us" 
-                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
                         aria-label="US measurements"
                       >
                         US
