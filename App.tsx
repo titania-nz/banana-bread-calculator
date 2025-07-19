@@ -534,10 +534,206 @@ export default function App() {
 
           {/* Recipe Grid */}
           <div className="space-y-8">
-            {/* Main Content Grid - Recipe Card and Baking Info Side by Side */}
-            <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
-              {/* Recipe Card */}
-              <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm">
+            {/* Recipe Card - Full Width */}
+            <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  Your Recipe
+                  <span className="sr-only">for {bananaCount} banana{bananaCount !== 1 ? 's' : ''}</span>
+                </h2>
+                <fieldset>
+                  <legend className="sr-only">Measurement system</legend>
+                  <ToggleGroup 
+                    type="single" 
+                    value={isMetric ? "metric" : "us"} 
+                    onValueChange={(value) => setIsMetric(value === "metric")}
+                    className="bg-primary/20 rounded-full p-1 border border-primary/30"
+                    aria-label="Choose measurement system"
+                  >
+                    <ToggleGroupItem 
+                      value="metric" 
+                      className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
+                      aria-label="Metric measurements"
+                    >
+                      Metric
+                    </ToggleGroupItem>
+                    <ToggleGroupItem 
+                      value="us" 
+                      className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown border-0"
+                      aria-label="US measurements"
+                    >
+                      US
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </fieldset>
+              </div>
+
+              {/* All Ingredients in Single Column */}
+              <div className="space-y-6">
+                {/* Wet Ingredients Section */}
+                <section aria-labelledby="wet-ingredients-heading">
+                  <h3 id="wet-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                    <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
+                    Wet Ingredients
+                  </h3>
+                  <ul className="space-y-2" role="list">
+                    {wetIngredients.map((ingredient, index) => (
+                      <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                        <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                          {ingredient.name}
+                        </span>
+                        <span 
+                          className="font-semibold text-deep-brown tabular-nums" 
+                          style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
+                          aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
+                        >
+                          {ingredient.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                {/* Dry Ingredients Section */}
+                <section aria-labelledby="dry-ingredients-heading">
+                  <h3 id="dry-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                    <div className="w-2 h-2 bg-secondary rounded-full" aria-hidden="true"></div>
+                    Dry Ingredients
+                  </h3>
+                  <ul className="space-y-2" role="list">
+                    {dryIngredients.map((ingredient, index) => (
+                      <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                        <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                          {ingredient.name}
+                        </span>
+                        <span 
+                          className="font-semibold text-deep-brown tabular-nums" 
+                          style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
+                          aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
+                        >
+                          {ingredient.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                {/* Optional Add-ins Section */}
+                <section aria-labelledby="optional-ingredients-heading">
+                  <h3 id="optional-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                    <div className="w-2 h-2 bg-accent rounded-full" aria-hidden="true"></div>
+                    Optional Add-ins
+                  </h3>
+                  <ul className="space-y-2" role="list">
+                    <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                        Chopped nuts
+                      </span>
+                      <span 
+                        className="font-medium text-deep-brown tabular-nums"
+                        style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}
+                        aria-label={`${getIngredientAmount('nuts')} of chopped nuts`}
+                      >
+                        {getIngredientAmount('nuts')}
+                      </span>
+                    </li>
+                    <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
+                      <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                        Chocolate chips
+                      </span>
+                      <span 
+                        className="font-medium text-deep-brown tabular-nums"
+                        style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}
+                        aria-label={`${getIngredientAmount('chocolate')} of chocolate chips`}
+                      >
+                        {getIngredientAmount('chocolate')}
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+
+            {/* Bottom Cards Grid - Side by Side on Desktop */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Baking Info Card */}
+              <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="baking-info-heading">
+                <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  Baking Info
+                </h3>
+                <dl className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Pan size</dt>
+                    <dd className="font-medium text-deep-brown text-right">{bakingInfo.panSize}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Temperature</dt>
+                    <dd className="font-medium text-deep-brown">{bakingInfo.temp}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Time</dt>
+                    <dd className="font-medium text-deep-brown">{bakingInfo.time}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Batter weight</dt>
+                    <dd className="font-medium text-deep-brown">{bakingInfo.batterWeight}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              {/* Quick Method Card */}
+              <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="quick-method-heading">
+                <h3 id="quick-method-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  Quick Method
+                </h3>
+                <ol className="space-y-2 text-sm text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+                  <li>
+                    <strong>1.</strong> Preheat oven to <span className="font-medium text-deep-brown">{bakingInfo.temp}</span>
+                  </li>
+                  <li><strong>2.</strong> Mash bananas, mix with wet ingredients</li>
+                  <li><strong>3.</strong> Combine dry ingredients separately</li>
+                  <li><strong>4.</strong> Mix wet and dry until just combined</li>
+                  <li>
+                    <strong>5.</strong> Pour into greased pan, bake <span className="font-medium text-deep-brown">{bakingInfo.time}</span>
+                  </li>
+                  <li><strong>6.</strong> Cool before removing from pan</li>
+                </ol>
+              </section>
+            </div>
+
+            {/* Pro Tip Card - Full Width */}
+            <section className="bg-soft-yellow rounded-warm-lg border border-primary/30 p-4" aria-labelledby="pro-tip-heading">
+              <h4 id="pro-tip-heading" className="font-semibold text-deep-brown mb-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                <span role="img" aria-label="Light bulb">💡</span> Pro Tip
+              </h4>
+              <p className="text-sm text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+                The more brown spots on your bananas, the sweeter your bread will be!
+              </p>
+            </section>
+          </div>
+        </main>
+
+        {/* Compact Footer */}
+        <footer className="bg-warm-beige border-t border-border/30 py-6 mt-12" role="contentinfo">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <p className="text-sm text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+              Made with <span role="img" aria-label="bread">🍞</span> by{' '}
+              <a 
+                href="https://titania.co.nz" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-deep-brown hover:text-primary font-semibold"
+                aria-label="Visit Steph's website (opens in new tab)"
+              >
+                Steph
+              </a>.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </TooltipProvider>
+  );
+}
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif' }}>
                     Your Recipe
