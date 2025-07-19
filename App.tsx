@@ -721,9 +721,9 @@ export default function App() {
           {/* Recipe Grid */}
           <div className="space-y-8">
             {/* Main Content Grid - Recipe Card and Baking Info Side by Side */}
-            <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
               {/* Recipe Card */}
-              <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm lg:col-span-1">
+              <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif' }}>
                     Your Recipe
@@ -735,19 +735,19 @@ export default function App() {
                       type="single" 
                       value={isMetric ? "metric" : "us"} 
                       onValueChange={(value) => setIsMetric(value === "metric")}
-                      className="bg-warm-beige rounded-full p-1"
+                      className="bg-primary/20 rounded-full p-1"
                       aria-label="Choose measurement system"
                     >
                       <ToggleGroupItem 
                         value="metric" 
-                        className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
                         aria-label="Metric measurements"
                       >
                         Metric
                       </ToggleGroupItem>
                       <ToggleGroupItem 
                         value="us" 
-                        className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
+                        className="px-3 py-1 text-sm rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=off]:text-muted-foreground hover:data-[state=off]:text-deep-brown"
                         aria-label="US measurements"
                       >
                         US
@@ -843,7 +843,7 @@ export default function App() {
               </article>
 
               {/* Right Sidebar - Baking Info */}
-              <div className="space-y-6 lg:col-span-1">
+              <div className="space-y-6">
                 {/* Baking Info Card */}
                 <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="baking-info-heading">
                   <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
