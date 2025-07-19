@@ -721,7 +721,7 @@ export default function App() {
           {/* Recipe Grid */}
           <div className="space-y-8">
             {/* Main Content Grid - Recipe Card and Baking Info Side by Side */}
-            <div className="grid lg:grid-cols-[1fr_1fr] gap-6">
+            <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
               {/* Recipe Card */}
               <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm lg:col-span-1">
                 <div className="flex items-center justify-between mb-6">
