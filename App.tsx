@@ -314,15 +314,14 @@ export default function App() {
         </a>
 
         {/* Compact Header */}
-        <header className="bg-white border-b border-border/30 py-6" role="banner">
+        <header className="bg-white border-b border-border/30 py-6 shadow-warm" role="banner">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h1 
-              className="text-3xl md:text-4xl lg:text-5xl text-deep-brown mb-2" 
-              style={{ fontFamily: '"Yellowtail", cursive' }}
+              className="text-3xl md:text-4xl lg:text-5xl text-deep-brown mb-2 font-display"
             >
               Banana Bread Calculator
             </h1>
-            <p className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+            <p className="text-muted-foreground font-light">
               Turn your overripe banana horde into something delicious.
             </p>
           </div>
@@ -356,7 +355,6 @@ export default function App() {
               </p>
               <Badge 
                 className="mb-6 px-4 py-2 text-base bg-white/95 backdrop-blur-sm text-deep-brown border-2 border-deep-brown shadow-sm font-semibold"
-                style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
                 role="status"
                 aria-live="polite"
                 aria-label={`Current status: ${status.message}`}
@@ -410,7 +408,7 @@ export default function App() {
                       <TooltipTrigger asChild>
                         <div 
                           className="relative text-8xl font-bold text-deep-brown leading-none mb-2 drop-shadow-lg cursor-pointer hover:scale-105 transition-all duration-300 select-none group"
-                          style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700, textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)' }}
+                          style={{ textShadow: '2px 2px 4px rgba(255, 255, 255, 0.8)' }}
                           onClick={handleBananaCountClick}
                           role="button"
                           tabIndex={0}
@@ -424,7 +422,7 @@ export default function App() {
                         >
                           {bananaCount}
                           {/* Edit indicator that appears on hover */}
-                          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-deep-brown/60 bg-white/70 backdrop-blur-sm px-2 py-1 rounded font-medium pointer-events-none" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}>
+                          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-deep-brown/60 bg-white/70 backdrop-blur-sm px-2 py-1 rounded font-medium pointer-events-none">
                             Click to edit
                           </div>
                         </div>
@@ -435,8 +433,7 @@ export default function App() {
                     </Tooltip>
                   )}
                   <div 
-                    className="text-lg text-deep-brown font-semibold bg-white/85 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm border border-deep-brown/20" 
-                    style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
+                    className="text-lg text-deep-brown font-semibold bg-white/85 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm border border-deep-brown/20"
                     role="status"
                     aria-live="polite"
                     aria-label={`Total: ${bananaCount} banana${bananaCount !== 1 ? 's' : ''}, ${Math.round(bananaCount * 120)} grams`}
@@ -460,7 +457,7 @@ export default function App() {
               <div className="flex items-center justify-center gap-4">
                 {/* Prominent Gram Input Field */}
                 <div className="flex items-center bg-white/95 backdrop-blur-sm rounded-full border border-deep-brown/30 shadow-sm px-4 py-2">
-                  <label className="text-sm font-medium text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}>
+                  <label className="text-sm font-semibold text-deep-brown">
                     Total weight:
                   </label>
                   <Input
@@ -473,12 +470,11 @@ export default function App() {
                     className="w-16 text-center border-0 bg-transparent text-deep-brown font-semibold focus:ring-0 focus:ring-offset-0 p-0 mx-2"
                     aria-label="Total weight in grams. Enter value between 120 and 12000"
                     aria-describedby="gram-input-description"
-                    style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}
                   />
                   <span id="gram-input-description" className="sr-only">
                     Enter the total weight of your bananas in grams. Minimum 120g for 1 banana, maximum 12000g for 100 bananas.
                   </span>
-                  <span className="text-sm font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 700 }}>
+                  <span className="text-sm font-bold text-deep-brown">
                     g
                   </span>
                 </div>
@@ -535,9 +531,9 @@ export default function App() {
           {/* Recipe Grid */}
           <div className="space-y-8">
             {/* Recipe Card - Full Width */}
-            <article className="bg-white rounded-warm-lg border border-border p-6 shadow-warm">
+            <article className="card-warm p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                <h2 className="text-xl font-bold text-deep-brown">
                   Your Recipe
                   <span className="sr-only">for {bananaCount} banana{bananaCount !== 1 ? 's' : ''}</span>
                 </h2>
@@ -572,19 +568,18 @@ export default function App() {
               <div className="space-y-6">
                 {/* Wet Ingredients Section */}
                 <section aria-labelledby="wet-ingredients-heading">
-                  <h3 id="wet-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  <h3 id="wet-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
                     <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
                     Wet Ingredients
                   </h3>
                   <ul className="space-y-2" role="list">
                     {wetIngredients.map((ingredient, index) => (
                       <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                        <span className="text-deep-brown font-normal">
                           {ingredient.name}
                         </span>
                         <span 
-                          className="font-semibold text-deep-brown tabular-nums" 
-                          style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
+                          className="font-semibold text-deep-brown tabular-nums"
                           aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
                         >
                           {ingredient.value}
@@ -596,19 +591,18 @@ export default function App() {
 
                 {/* Dry Ingredients Section */}
                 <section aria-labelledby="dry-ingredients-heading">
-                  <h3 id="dry-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  <h3 id="dry-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
                     <div className="w-2 h-2 bg-secondary rounded-full" aria-hidden="true"></div>
                     Dry Ingredients
                   </h3>
                   <ul className="space-y-2" role="list">
                     {dryIngredients.map((ingredient, index) => (
                       <li key={index} className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                        <span className="text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                        <span className="text-deep-brown font-normal">
                           {ingredient.name}
                         </span>
                         <span 
-                          className="font-semibold text-deep-brown tabular-nums" 
-                          style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 600 }}
+                          className="font-semibold text-deep-brown tabular-nums"
                           aria-label={`${ingredient.value} of ${ingredient.name.toLowerCase()}`}
                         >
                           {ingredient.value}
@@ -620,30 +614,28 @@ export default function App() {
 
                 {/* Optional Add-ins Section */}
                 <section aria-labelledby="optional-ingredients-heading">
-                  <h3 id="optional-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+                  <h3 id="optional-ingredients-heading" className="text-base font-semibold text-deep-brown mb-3 flex items-center gap-2">
                     <div className="w-2 h-2 bg-accent rounded-full" aria-hidden="true"></div>
                     Optional Add-ins
                   </h3>
                   <ul className="space-y-2" role="list">
                     <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                      <span className="text-muted-foreground font-normal">
                         Chopped nuts
                       </span>
                       <span 
                         className="font-medium text-deep-brown tabular-nums"
-                        style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}
                         aria-label={`${getIngredientAmount('nuts')} of chopped nuts`}
                       >
                         {getIngredientAmount('nuts')}
                       </span>
                     </li>
                     <li className="grid grid-cols-[1fr_auto] items-center py-2 text-sm">
-                      <span className="text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 400 }}>
+                      <span className="text-muted-foreground font-normal">
                         Chocolate chips
                       </span>
                       <span 
                         className="font-medium text-deep-brown tabular-nums"
-                        style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 500 }}
                         aria-label={`${getIngredientAmount('chocolate')} of chocolate chips`}
                       >
                         {getIngredientAmount('chocolate')}
@@ -657,8 +649,8 @@ export default function App() {
             {/* Bottom Cards Grid - Side by Side on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Baking Info Card */}
-              <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="baking-info-heading">
-                <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+              <section className="card-warm p-6" aria-labelledby="baking-info-heading">
+                <h3 id="baking-info-heading" className="text-base font-bold text-deep-brown mb-4">
                   Baking Info
                 </h3>
                 <dl className="space-y-3 text-sm">
@@ -682,11 +674,11 @@ export default function App() {
               </section>
 
               {/* Quick Method Card */}
-              <section className="bg-white rounded-warm-lg border border-border p-6 shadow-warm" aria-labelledby="quick-method-heading">
-                <h3 id="quick-method-heading" className="text-base font-bold text-deep-brown mb-4" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+              <section className="card-warm p-6" aria-labelledby="quick-method-heading">
+                <h3 id="quick-method-heading" className="text-base font-bold text-deep-brown mb-4">
                   Quick Method
                 </h3>
-                <ol className="space-y-2 text-sm text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+                <ol className="space-y-2 text-sm text-muted-foreground font-light">
                   <li>
                     <strong>1.</strong> Preheat oven to <span className="font-medium text-deep-brown">{bakingInfo.temp}</span>
                   </li>
@@ -702,11 +694,11 @@ export default function App() {
             </div>
 
             {/* Pro Tip Card - Full Width */}
-            <section className="bg-soft-yellow rounded-warm-lg border border-primary/30 p-4" aria-labelledby="pro-tip-heading">
-              <h4 id="pro-tip-heading" className="font-semibold text-deep-brown mb-2" style={{ fontFamily: '"Open Sans", sans-serif' }}>
+            <section className="bg-soft-yellow rounded-warm-lg border border-primary/30 p-4 shadow-warm" aria-labelledby="pro-tip-heading">
+              <h4 id="pro-tip-heading" className="font-semibold text-deep-brown mb-2">
                 <span role="img" aria-label="Light bulb">💡</span> Pro Tip
               </h4>
-              <p className="text-sm text-deep-brown" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+              <p className="text-sm text-deep-brown font-light">
                 The more brown spots on your bananas, the sweeter your bread will be!
               </p>
             </section>
@@ -714,15 +706,15 @@ export default function App() {
         </main>
 
         {/* Compact Footer */}
-        <footer className="bg-warm-beige border-t border-border/30 py-6 mt-12" role="contentinfo">
+        <footer className="bg-warm-beige border-t border-border/30 py-6 mt-12 shadow-warm" role="contentinfo">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-sm text-muted-foreground" style={{ fontFamily: '"Open Sans", sans-serif', fontWeight: 300 }}>
+            <p className="text-sm text-muted-foreground font-light">
               Made with <span role="img" aria-label="bread">🍞</span> by{' '}
               <a 
                 href="https://titania.co.nz" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-deep-brown hover:text-primary font-semibold"
+                className="text-deep-brown hover:text-primary font-medium"
                 aria-label="Visit Steph's website (opens in new tab)"
               >
                 Steph

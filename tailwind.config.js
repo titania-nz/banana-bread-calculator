@@ -9,8 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Dancing Script"', 'cursive'],
-        body: ['Inter', 'sans-serif'],
+        display: ['"Yellowtail"', 'cursive'],
+        body: ['"Open Sans"', 'sans-serif'],
       },
     },
   },
