@@ -1,0 +1,21 @@
+{
+  "name": "Banana Bread Calculator",
+  "short_name": "Banana Calc",
+  "description": "Interactive banana bread recipe calculator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8E7",
+  "theme_color": "#FFD45C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Banana Bread Icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle", "utilities"],
+  "lang": "en",
+  "scope": "/"
+}

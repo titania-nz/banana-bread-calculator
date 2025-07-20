@@ -1,11 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="description" content="Interactive banana bread recipe calculator that automatically scales ingredients based on the number of bananas you have. Perfect ratios for 1-100 bananas with metric and US measurements." />
+    <meta name="keywords" content="banana bread calculator, recipe calculator, baking measurements, banana bread recipe, cooking calculator, baking ratios, banana recipes, ingredient scaling" />
+    <meta name="author" content="Steph" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#FFD45C" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://banana-bread-calculator.netlify.app/" />
+    <meta property="og:title" content="Banana Bread Calculator - Perfect Recipe Scaling" />
+    <meta property="og:description" content="Turn your overripe banana horde into something delicious! Interactive calculator with precise measurements for 1-100 bananas." />
+    <meta property="og:image" content="https://banana-bread-calculator.netlify.app/og-image.jpg" />
+    <meta property="og:site_name" content="Banana Bread Calculator" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://banana-bread-calculator.netlify.app/" />
+    <meta property="twitter:title" content="Banana Bread Calculator - Perfect Recipe Scaling" />
+    <meta property="twitter:description" content="Turn your overripe banana horde into something delicious! Interactive calculator with precise measurements for 1-100 bananas." />
+    <meta property="twitter:image" content="https://banana-bread-calculator.netlify.app/og-image.jpg" />
+    
+    <!-- Favicon and Apple Touch Icons -->
+    <link rel="icon" type="image/png" href="/Banana Bread Icon.png" />
+    <link rel="apple-touch-icon" href="/Banana Bread Icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Analytics - Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID', {
+        page_title: 'Banana Bread Calculator',
+        custom_map: {'custom_parameter_1': 'banana_count'}
+      });
+    </script>
+    
+    <!-- Alternative: Plausible Analytics (privacy-focused) -->
+    <!-- <script defer data-domain="banana-bread-calculator.netlify.app" src="https://plausible.io/js/script.js"></script> -->
+    
+    <!-- Font loading with display swap for performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Banana Bread Calculator</title>
+    <title>Banana Bread Calculator - Perfect Recipe Scaling for Any Number of Bananas</title>
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="application-name" content="Banana Bread Calculator" />
+    <meta name="apple-mobile-web-app-title" content="Banana Calc" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "WebApplication",
+      "name": "Banana Bread Calculator",
+      "description": "Interactive banana bread recipe calculator that scales ingredients based on the number of bananas you have",
+      "url": "https://banana-bread-calculator.netlify.app/",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Steph",
+        "url": "https://github.com/titania-nz"
+      }
+    }
+    </script>
   </head>
   <body>
+    <noscript>
+      <div style="text-align: center; padding: 2rem; background: #FFF8E7; color: #6F4E37; font-family: sans-serif;">
+        <h1>🍌 Banana Bread Calculator</h1>
+        <p>This application requires JavaScript to function. Please enable JavaScript in your browser to use the calculator.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

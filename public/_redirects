@@ -1,0 +1,8 @@
+# Netlify redirects file
+# Handle client-side routing
+/*    /index.html   200
+
+# Optional: Redirect common typos or alternative URLs
+/calculator    /    301
+/recipe        /    301
+/banana        /    301
