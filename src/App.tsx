@@ -490,6 +490,7 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-3">
                         <button
                           onClick={addCustomMixin}
                           className="custom-mixin-add-btn"
