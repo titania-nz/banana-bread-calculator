@@ -224,6 +224,28 @@ export default function App() {
               <div className="counter-label">
                 banana{bananaCount !== 1 ? 's' : ''} • {Math.round(bananaCount * 120)}g
               </div>
+              <div style={{ marginTop: '16px' }}>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={bananaCount}
+                  onChange={(e) => handleBananaCountChange(parseInt(e.target.value) || 1)}
+                  style={{
+                    width: '80px',
+                    height: '40px',
+                    border: '2px solid #6F4E37',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    color: '#6F4E37',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    outline: 'none'
+                  }}
+                  placeholder="Count"
+                />
+              </div>
             </div>
             
             <button
