@@ -261,9 +261,8 @@ export default function App() {
                     fontWeight: '700',
                     color: '#6F4E37',
                     lineHeight: '1',
-                    textShadow: '2px 2px 4px rgba(255, 255, 255, 0.5)',
-                    background: 'transparent',
-                    border: '2px dashed #6F4E37',
+                    background: '#FFFFFF',
+                    border: '2px solid #6F4E37',
                     borderRadius: '8px',
                     textAlign: 'center',
                     width: '200px',
@@ -280,13 +279,16 @@ export default function App() {
                     userSelect: 'none',
                     transition: 'all 0.2s ease',
                     padding: '8px',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
+                    border: '2px solid transparent'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                    e.currentTarget.style.border = '2px solid #6F4E37';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.border = '2px solid transparent';
                   }}
                   title="Click to edit quantity"
                 >
