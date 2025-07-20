@@ -55,16 +55,12 @@ export default function App() {
   // Recipe calculations
   const perBananaFormula = {
     banana: 120, flour: 60, sugar: 50, butter: 28, bakingSoda: 1.5, salt: 0.75, vanilla: 1.25, cinnamon: 0.5,
-    nuts: 17.5, chocolate: 17.5, cranberries: 15, raisins: 15, miniChocolate: 12, coconut: 8,
-    nutmeg: 0.25, cloves: 0.125, cardamom: 0.25, ginger: 0.25,
-    streuselSugar: 20, streuselFlour: 15, streuselButter: 10, streuselOats: 12
+    nuts: 17.5, chocolate: 17.5
   };
 
   const usConversions = {
     banana: 0.5, flour: 0.5, sugar: 0.25, butter: 2, bakingSoda: 0.25, salt: 0.125, vanilla: 0.25, cinnamon: 0.125,
-    nuts: 2, chocolate: 2, cranberries: 1, raisins: 1, miniChocolate: 1.5, coconut: 1,
-    nutmeg: 0.0625, cloves: 0.03125, cardamom: 0.0625, ginger: 0.0625,
-    streuselSugar: 1.5, streuselFlour: 1, streuselButter: 0.75, streuselOats: 1
+    nuts: 2, chocolate: 2
   };
 
   const scaledRecipe = {
@@ -78,19 +74,7 @@ export default function App() {
     vanilla: { metric: perBananaFormula.vanilla * bananaCount, us: usConversions.vanilla * bananaCount },
     cinnamon: { metric: perBananaFormula.cinnamon * bananaCount, us: usConversions.cinnamon * bananaCount },
     nuts: { metric: perBananaFormula.nuts * bananaCount, us: usConversions.nuts * bananaCount },
-    chocolate: { metric: perBananaFormula.chocolate * bananaCount, us: usConversions.chocolate * bananaCount },
-    cranberries: { metric: perBananaFormula.cranberries * bananaCount, us: usConversions.cranberries * bananaCount },
-    raisins: { metric: perBananaFormula.raisins * bananaCount, us: usConversions.raisins * bananaCount },
-    miniChocolate: { metric: perBananaFormula.miniChocolate * bananaCount, us: usConversions.miniChocolate * bananaCount },
-    coconut: { metric: perBananaFormula.coconut * bananaCount, us: usConversions.coconut * bananaCount },
-    nutmeg: { metric: perBananaFormula.nutmeg * bananaCount, us: usConversions.nutmeg * bananaCount },
-    cloves: { metric: perBananaFormula.cloves * bananaCount, us: usConversions.cloves * bananaCount },
-    cardamom: { metric: perBananaFormula.cardamom * bananaCount, us: usConversions.cardamom * bananaCount },
-    ginger: { metric: perBananaFormula.ginger * bananaCount, us: usConversions.ginger * bananaCount },
-    streuselSugar: { metric: perBananaFormula.streuselSugar * bananaCount, us: usConversions.streuselSugar * bananaCount },
-    streuselFlour: { metric: perBananaFormula.streuselFlour * bananaCount, us: usConversions.streuselFlour * bananaCount },
-    streuselButter: { metric: perBananaFormula.streuselButter * bananaCount, us: usConversions.streuselButter * bananaCount },
-    streuselOats: { metric: perBananaFormula.streuselOats * bananaCount, us: usConversions.streuselOats * bananaCount }
+    chocolate: { metric: perBananaFormula.chocolate * bananaCount, us: usConversions.chocolate * bananaCount }
   };
 
   const getBananaStatus = () => {
@@ -142,19 +126,7 @@ export default function App() {
       salt: isMetric ? `${scaledRecipe.salt.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.salt.us)} tsp`,
       cinnamon: isMetric ? `${scaledRecipe.cinnamon.metric.toFixed(1)}g` : `${toFraction(scaledRecipe.cinnamon.us)} tsp`,
       nuts: isMetric ? `${Math.round(scaledRecipe.nuts.metric)}g` : `${toFraction(scaledRecipe.nuts.us)} tbsp`,
-      chocolate: isMetric ? `${Math.round(scaledRecipe.chocolate.metric)}g` : `${toFraction(scaledRecipe.chocolate.us)} tbsp`,
-      cranberries: isMetric ? `${Math.round(scaledRecipe.cranberries.metric)}g` : `${toFraction(scaledRecipe.cranberries.us)} tbsp`,
-      raisins: isMetric ? `${Math.round(scaledRecipe.raisins.metric)}g` : `${toFraction(scaledRecipe.raisins.us)} tbsp`,
-      miniChocolate: isMetric ? `${Math.round(scaledRecipe.miniChocolate.metric)}g` : `${toFraction(scaledRecipe.miniChocolate.us)} tbsp`,
-      coconut: isMetric ? `${Math.round(scaledRecipe.coconut.metric)}g` : `${toFraction(scaledRecipe.coconut.us)} tbsp`,
-      nutmeg: isMetric ? `${scaledRecipe.nutmeg.metric.toFixed(2)}g` : `${toFraction(scaledRecipe.nutmeg.us)} tsp`,
-      cloves: isMetric ? `${scaledRecipe.cloves.metric.toFixed(2)}g` : `${toFraction(scaledRecipe.cloves.us)} tsp`,
-      cardamom: isMetric ? `${scaledRecipe.cardamom.metric.toFixed(2)}g` : `${toFraction(scaledRecipe.cardamom.us)} tsp`,
-      ginger: isMetric ? `${scaledRecipe.ginger.metric.toFixed(2)}g` : `${toFraction(scaledRecipe.ginger.us)} tsp`,
-      streuselSugar: isMetric ? `${Math.round(scaledRecipe.streuselSugar.metric)}g` : `${toFraction(scaledRecipe.streuselSugar.us)} tbsp`,
-      streuselFlour: isMetric ? `${Math.round(scaledRecipe.streuselFlour.metric)}g` : `${toFraction(scaledRecipe.streuselFlour.us)} tbsp`,
-      streuselButter: isMetric ? `${Math.round(scaledRecipe.streuselButter.metric)}g` : `${toFraction(scaledRecipe.streuselButter.us)} tbsp`,
-      streuselOats: isMetric ? `${Math.round(scaledRecipe.streuselOats.metric)}g` : `${toFraction(scaledRecipe.streuselOats.us)} tbsp`
+      chocolate: isMetric ? `${Math.round(scaledRecipe.chocolate.metric)}g` : `${toFraction(scaledRecipe.chocolate.us)} tbsp`
     };
     return amounts[ingredient] || '';
   };
@@ -235,25 +207,7 @@ export default function App() {
 
   const optionalAddIns = [
     { name: 'Chopped nuts', value: getIngredientAmount('nuts') },
-    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') },
-    { name: 'Dried cranberries', value: getIngredientAmount('cranberries') },
-    { name: 'Raisins', value: getIngredientAmount('raisins') },
-    { name: 'Mini chocolate chips', value: getIngredientAmount('miniChocolate') },
-    { name: 'Coconut flakes', value: getIngredientAmount('coconut') }
-  ];
-
-  const extraSpices = [
-    { name: 'Ground nutmeg', value: getIngredientAmount('nutmeg') },
-    { name: 'Ground cloves', value: getIngredientAmount('cloves') },
-    { name: 'Cardamom', value: getIngredientAmount('cardamom') },
-    { name: 'Ginger powder', value: getIngredientAmount('ginger') }
-  ];
-
-  const streuselTopping = [
-    { name: 'Brown sugar (streusel)', value: getIngredientAmount('streuselSugar') },
-    { name: 'Flour (streusel)', value: getIngredientAmount('streuselFlour') },
-    { name: 'Cold butter (streusel)', value: getIngredientAmount('streuselButter') },
-    { name: 'Oats (streusel)', value: getIngredientAmount('streuselOats') }
+    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') }
   ];
 
   const methodSteps = [
@@ -440,42 +394,10 @@ export default function App() {
             <div className="ingredient-section">
               <div className="section-header">
                 <div className="section-dot optional"></div>
-                <h3 className="section-title">Mix-ins & Fruits</h3>
+                <h3 className="section-title">Optional Add-ins</h3>
               </div>
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
-                  <li key={index} className="ingredient-item optional">
-                    <span className="ingredient-name">{ingredient.name}</span>
-                    <span className="ingredient-amount">{ingredient.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Extra Spices */}
-            <div className="ingredient-section">
-              <div className="section-header">
-                <div className="section-dot spices"></div>
-                <h3 className="section-title">Extra Spices</h3>
-              </div>
-              <ul className="ingredient-list">
-                {extraSpices.map((ingredient, index) => (
-                  <li key={index} className="ingredient-item optional">
-                    <span className="ingredient-name">{ingredient.name}</span>
-                    <span className="ingredient-amount">{ingredient.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Streusel Topping */}
-            <div className="ingredient-section">
-              <div className="section-header">
-                <div className="section-dot streusel"></div>
-                <h3 className="section-title">Streusel Topping</h3>
-              </div>
-              <ul className="ingredient-list">
-                {streuselTopping.map((ingredient, index) => (
                   <li key={index} className="ingredient-item optional">
                     <span className="ingredient-name">{ingredient.name}</span>
                     <span className="ingredient-amount">{ingredient.value}</span>

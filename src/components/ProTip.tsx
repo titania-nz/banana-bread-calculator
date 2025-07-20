@@ -11,7 +11,7 @@ export const ProTip: React.FC = () => {
         <div>
           <h4 className="font-medium text-deep-brown mb-1 text-sm">Pro Tip</h4>
           <p className="text-xs text-deep-brown leading-relaxed font-light">
-            The more brown spots on your bananas, the sweeter your bread will be! Try mixing different add-ins for unique flavor combinations.
+            The more brown spots on your bananas, the sweeter your bread will be!
           </p>
         </div>
       </div>

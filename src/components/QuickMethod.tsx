@@ -12,8 +12,7 @@ export const QuickMethod: React.FC<QuickMethodProps> = ({ bakingInfo }) => {
     `Preheat oven to ${bakingInfo.temp}`,
     'Mash bananas, mix with wet ingredients',
     'Combine dry ingredients separately',
-    'Mix wet and dry until just combined, fold in add-ins',
-    'Optional: sprinkle streusel topping',
+    'Mix wet and dry until just combined',
     `Pour into greased pan, bake ${bakingInfo.time}`,
     'Cool before removing from pan'
   ];
