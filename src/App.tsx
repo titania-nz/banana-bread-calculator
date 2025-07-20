@@ -7,8 +7,9 @@ export default function App() {
   const [inputError, setInputError] = useState('');
   const [isEditingCount, setIsEditingCount] = useState(false);
   const [tempCountValue, setTempCountValue] = useState('');
-  const [customMixin, setCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
-  const [showCustomMixin, setShowCustomMixin] = useState(false);
+  const [customMixins, setCustomMixins] = useState<Array<{ id: string; name: string; baseAmount: number; unit: string }>>([]);
+  const [showAddCustom, setShowAddCustom] = useState(false);
+  const [newCustomMixin, setNewCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -210,25 +211,43 @@ export default function App() {
   const optionalAddIns = [
     { name: 'Chopped nuts', value: getIngredientAmount('nuts') },
     { name: 'Chocolate chips', value: getIngredientAmount('chocolate') },
-    ...(showCustomMixin && customMixin.name && customMixin.baseAmount > 0 ? [{
-      name: customMixin.name,
+    ...customMixins.filter(mixin => mixin.name && mixin.baseAmount > 0).map(mixin => ({
+      name: mixin.name,
       value: isMetric 
-        ? `${Math.round(customMixin.baseAmount * bananaCount)}${customMixin.unit}`
-        : `${toFraction(customMixin.baseAmount * bananaCount / (customMixin.unit === 'g' ? 14.3 : customMixin.unit === 'ml' ? 4.93 : 1))} ${customMixin.unit === 'g' ? 'tbsp' : customMixin.unit === 'ml' ? 'tsp' : customMixin.unit}`
-    }] : [])
+        ? `${Math.round(mixin.baseAmount * bananaCount)}${mixin.unit}`
+        : `${toFraction(mixin.baseAmount * bananaCount / (mixin.unit === 'g' ? 14.3 : mixin.unit === 'ml' ? 4.93 : 1))} ${mixin.unit === 'g' ? 'tbsp' : mixin.unit === 'ml' ? 'tsp' : mixin.unit}`,
+      isCustom: true,
+      id: mixin.id
+    }))
   ];
 
-  const handleCustomMixinChange = (field: string, value: string | number) => {
-    setCustomMixin(prev => ({
+  const handleNewCustomMixinChange = (field: string, value: string | number) => {
+    setNewCustomMixin(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const toggleCustomMixin = () => {
-    setShowCustomMixin(!showCustomMixin);
-    if (!showCustomMixin) {
-      setCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
+  const addCustomMixin = () => {
+    if (newCustomMixin.name && newCustomMixin.baseAmount > 0) {
+      const newMixin = {
+        ...newCustomMixin,
+        id: Date.now().toString()
+      };
+      setCustomMixins(prev => [...prev, newMixin]);
+      setNewCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
+      setShowAddCustom(false);
+    }
+  };
+
+  const removeCustomMixin = (id: string) => {
+    setCustomMixins(prev => prev.filter(mixin => mixin.id !== id));
+  };
+
+  const toggleAddCustom = () => {
+    setShowAddCustom(!showAddCustom);
+    if (!showAddCustom) {
+      setNewCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
     }
   };
   const methodSteps = [
@@ -419,37 +438,50 @@ export default function App() {
               </div>
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
-                  <li key={index} className="ingredient-item optional">
-                    <span className="ingredient-name">{ingredient.name}</span>
-                    <span className="ingredient-amount">{ingredient.value}</span>
+                  <li key={ingredient.id || index} className="ingredient-item optional">
+                    <div className="flex items-center justify-between w-full">
+                      <span className="ingredient-name">{ingredient.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="ingredient-amount">{ingredient.value}</span>
+                        {ingredient.isCustom && (
+                          <button
+                            onClick={() => removeCustomMixin(ingredient.id)}
+                            className="custom-mixin-remove-btn"
+                            title="Remove custom ingredient"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </li>
                 ))}
                 
                 {/* Custom Mixin Input */}
-                {showCustomMixin ? (
+                {showAddCustom ? (
                   <li className="ingredient-item optional">
                     <div className="custom-mixin-form">
                       <div className="custom-mixin-inputs">
                         <input
                           type="text"
                           placeholder="Custom ingredient"
-                          value={customMixin.name}
-                          onChange={(e) => handleCustomMixinChange('name', e.target.value)}
+                          value={newCustomMixin.name}
+                          onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
                           className="custom-mixin-name-input"
                         />
                         <div className="custom-mixin-amount-group">
                           <input
                             type="number"
                             placeholder="Amount"
-                            value={customMixin.baseAmount || ''}
-                            onChange={(e) => handleCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                            value={newCustomMixin.baseAmount || ''}
+                            onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
                             className="custom-mixin-amount-input"
                             min="0"
                             step="0.1"
                           />
                           <select
-                            value={customMixin.unit}
-                            onChange={(e) => handleCustomMixinChange('unit', e.target.value)}
+                            value={newCustomMixin.unit}
+                            onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
                             className="custom-mixin-unit-select"
                           >
                             <option value="g">g</option>
@@ -459,22 +491,31 @@ export default function App() {
                           </select>
                         </div>
                       </div>
-                      <button
-                        onClick={toggleCustomMixin}
-                        className="custom-mixin-remove-btn"
-                        title="Remove custom ingredient"
-                      >
-                        ×
-                      </button>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={addCustomMixin}
+                          className="custom-mixin-add-btn"
+                          title="Add custom ingredient"
+                        >
+                          ✓
+                        </button>
+                        <button
+                          onClick={toggleAddCustom}
+                          className="custom-mixin-cancel-btn"
+                          title="Cancel"
+                        >
+                          ×
+                        </button>
+                      </div>
                     </div>
                   </li>
                 ) : (
                   <li className="ingredient-item optional add-custom-item">
                     <button
-                      onClick={toggleCustomMixin}
+                      onClick={toggleAddCustom}
                       className="add-custom-btn"
                       title="Add custom ingredient"
-                    >
+                      >
                       <span className="add-custom-icon">+</span>
                       <span className="add-custom-text">Add custom ingredient</span>
                     </button>

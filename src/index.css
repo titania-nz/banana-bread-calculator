@@ -616,6 +616,50 @@ body {
   color: white;
 }
 
+.custom-mixin-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #C9DAB7;
+  border: none;
+  color: #6F4E37;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.custom-mixin-add-btn:hover {
+  background: #A8B89A;
+  color: white;
+}
+
+.custom-mixin-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E6D5B8;
+  border: none;
+  color: #6F4E37;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.custom-mixin-cancel-btn:hover {
+  background: #E57373;
+  color: white;
+}
+
 .error-message {
   background: rgba(229, 115, 115, 0.1);
   border: 1px solid #E57373;
