@@ -459,53 +459,55 @@ export default function App() {
                 {showAddCustom ? (
                   <li className="ingredient-item optional">
                     <div className="custom-mixin-form">
-                  <li className="ingredient-item optional add-custom-item">
-                    <span className="ingredient-name">
-                      <input
-                        type="text"
-                        placeholder="Custom ingredient"
-                        value={newCustomMixin.name}
-                        onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
-                        className="custom-mixin-name-input"
-                      />
-                    </span>
-                    <span className="ingredient-amount">
-                      <div className="custom-mixin-amount-group">
-                        <input
-                          type="number"
-                          placeholder="Amount"
-                          value={newCustomMixin.baseAmount || ''}
-                          onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
-                          className="custom-mixin-amount-input"
-                          min="0"
-                          step="0.1"
-                        />
-                        <select
-                          value={newCustomMixin.unit}
-                          onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
-                          className="custom-mixin-unit-select"
-                        >
-                          <option value="g">g</option>
-                          <option value="ml">ml</option>
-                          <option value="tsp">tsp</option>
-                          <option value="tbsp">tbsp</option>
-                        </select>
-                      </div>
-                      <button
-                        onClick={addCustomMixin}
-                        className="custom-mixin-add-btn"
-                        title="Add custom ingredient"
-                      >
-                        +
-                      </button>
-                      <button
-                        onClick={toggleAddCustom}
-                        className="custom-mixin-cancel-btn"
-                        title="Cancel"
-                      >
-                        ×
-                      </button>
-                    </span>
+                      <li className="ingredient-item optional add-custom-item">
+                        <span className="ingredient-name">
+                          <input
+                            type="text"
+                            placeholder="Custom ingredient"
+                            value={newCustomMixin.name}
+                            onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
+                            className="custom-mixin-name-input"
+                          />
+                        </span>
+                        <span className="ingredient-amount">
+                          <div className="custom-mixin-amount-group">
+                            <input
+                              type="number"
+                              placeholder="Amount"
+                              value={newCustomMixin.baseAmount || ''}
+                              onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                              className="custom-mixin-amount-input"
+                              min="0"
+                              step="0.1"
+                            />
+                            <select
+                              value={newCustomMixin.unit}
+                              onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
+                              className="custom-mixin-unit-select"
+                            >
+                              <option value="g">g</option>
+                              <option value="ml">ml</option>
+                              <option value="tsp">tsp</option>
+                              <option value="tbsp">tbsp</option>
+                            </select>
+                          </div>
+                          <button
+                            onClick={addCustomMixin}
+                            className="custom-mixin-add-btn"
+                            title="Add custom ingredient"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={toggleAddCustom}
+                            className="custom-mixin-cancel-btn"
+                            title="Cancel"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      </li>
+                    </div>
                   </li>
                 ) : (
                   <li className="ingredient-item optional add-custom-item">
