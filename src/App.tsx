@@ -7,6 +7,8 @@ export default function App() {
   const [inputError, setInputError] = useState('');
   const [isEditingCount, setIsEditingCount] = useState(false);
   const [tempCountValue, setTempCountValue] = useState('');
+  const [customMixin, setCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
+  const [showCustomMixin, setShowCustomMixin] = useState(false);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -207,9 +209,28 @@ export default function App() {
 
   const optionalAddIns = [
     { name: 'Chopped nuts', value: getIngredientAmount('nuts') },
-    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') }
+    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') },
+    ...(showCustomMixin && customMixin.name && customMixin.baseAmount > 0 ? [{
+      name: customMixin.name,
+      value: isMetric 
+        ? `${Math.round(customMixin.baseAmount * bananaCount)}${customMixin.unit}`
+        : `${toFraction(customMixin.baseAmount * bananaCount / (customMixin.unit === 'g' ? 14.3 : customMixin.unit === 'ml' ? 4.93 : 1))} ${customMixin.unit === 'g' ? 'tbsp' : customMixin.unit === 'ml' ? 'tsp' : customMixin.unit}`
+    }] : [])
   ];
 
+  const handleCustomMixinChange = (field: string, value: string | number) => {
+    setCustomMixin(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const toggleCustomMixin = () => {
+    setShowCustomMixin(!showCustomMixin);
+    if (!showCustomMixin) {
+      setCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
+    }
+  };
   const methodSteps = [
     `Preheat oven to ${bakingInfo.temp}`,
     'Mash bananas, mix with wet ingredients',
@@ -395,7 +416,51 @@ export default function App() {
               <div className="section-header">
                 <div className="section-dot optional"></div>
                 <h3 className="section-title">Optional Add-ins</h3>
+                <button
+                  onClick={toggleCustomMixin}
+                  className="ml-auto text-xs px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
+                  title={showCustomMixin ? "Remove custom ingredient" : "Add custom ingredient"}
+                >
+                  {showCustomMixin ? '−' : '+'}
+                </button>
               </div>
+              
+              {showCustomMixin && (
+                <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="grid grid-cols-3 gap-2 mb-2">
+                    <input
+                      type="text"
+                      placeholder="Ingredient name"
+                      value={customMixin.name}
+                      onChange={(e) => handleCustomMixinChange('name', e.target.value)}
+                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Amount per banana"
+                      value={customMixin.baseAmount || ''}
+                      onChange={(e) => handleCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
+                      min="0"
+                      step="0.1"
+                    />
+                    <select
+                      value={customMixin.unit}
+                      onChange={(e) => handleCustomMixinChange('unit', e.target.value)}
+                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
+                    >
+                      <option value="g">g</option>
+                      <option value="ml">ml</option>
+                      <option value="tsp">tsp</option>
+                      <option value="tbsp">tbsp</option>
+                    </select>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Enter the amount per banana (e.g., "15g chocolate chips per banana")
+                  </p>
+                </div>
+              )}
+              
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
                   <li key={index} className="ingredient-item optional">
