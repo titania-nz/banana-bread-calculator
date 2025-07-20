@@ -2,7 +2,15 @@
   "name": "banana-bread-calculator",
   "version": "1.0.0",
   "description": "Interactive banana bread recipe calculator that automatically scales ingredients based on the number of bananas you have",
-  "keywords": ["banana-bread", "recipe-calculator", "baking", "cooking", "ingredient-scaling", "react", "typescript"],
+  "keywords": [
+    "banana-bread",
+    "recipe-calculator",
+    "baking",
+    "cooking",
+    "ingredient-scaling",
+    "react",
+    "typescript"
+  ],
   "author": "Steph <https://github.com/titania-nz>",
   "license": "MIT",
   "repository": {
@@ -23,6 +31,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "clsx": "^2.1.1",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
