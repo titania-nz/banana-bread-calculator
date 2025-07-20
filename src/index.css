@@ -296,6 +296,14 @@ body {
   background: #D4A574;
 }
 
+.section-dot.spices {
+  background: #8B4513;
+}
+
+.section-dot.streusel {
+  background: #CD853F;
+}
+
 .section-title {
   font-size: 14px;
   font-weight: 600;
