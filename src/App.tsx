@@ -495,7 +495,7 @@ export default function App() {
                           className="custom-mixin-add-btn"
                           title="Add custom ingredient"
                         >
-                          ✓
+                          +
                         </button>
                         <button
                           onClick={toggleAddCustom}
