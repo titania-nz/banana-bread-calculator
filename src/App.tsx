@@ -5,6 +5,8 @@ export default function App() {
   const [gramAmount, setGramAmount] = useState(360);
   const [isMetric, setIsMetric] = useState(true);
   const [inputError, setInputError] = useState('');
+  const [isEditingCount, setIsEditingCount] = useState(false);
+  const [tempCountValue, setTempCountValue] = useState('');
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -161,6 +163,30 @@ export default function App() {
     setGramAmount(numValue);
   };
 
+  const handleCountClick = () => {
+    setIsEditingCount(true);
+    setTempCountValue(bananaCount.toString());
+  };
+
+  const handleCountInputChange = (value: string) => {
+    setTempCountValue(value);
+  };
+
+  const handleCountInputBlur = () => {
+    const numValue = parseInt(tempCountValue);
+    if (!isNaN(numValue) && numValue >= 1 && numValue <= 100) {
+      handleBananaCountChange(numValue);
+    }
+    setIsEditingCount(false);
+  };
+
+  const handleCountInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCountInputBlur();
+    } else if (e.key === 'Escape') {
+      setIsEditingCount(false);
+    }
+  };
   const status = getBananaStatus();
   const bakingInfo = getBakingInfo();
 
@@ -220,7 +246,53 @@ export default function App() {
             </button>
             
             <div className="counter-display">
-              <div className="counter-number">{bananaCount}</div>
+              {isEditingCount ? (
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={tempCountValue}
+                  onChange={(e) => handleCountInputChange(e.target.value)}
+                  onBlur={handleCountInputBlur}
+                  onKeyDown={handleCountInputKeyDown}
+                  autoFocus
+                  style={{
+                    fontSize: '96px',
+                    fontWeight: '700',
+                    color: '#6F4E37',
+                    lineHeight: '1',
+                    textShadow: '2px 2px 4px rgba(255, 255, 255, 0.5)',
+                    background: 'transparent',
+                    border: '2px dashed #6F4E37',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    width: '200px',
+                    padding: '8px',
+                    outline: 'none'
+                  }}
+                />
+              ) : (
+                <div 
+                  className="counter-number"
+                  onClick={handleCountClick}
+                  style={{
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'all 0.2s ease',
+                    padding: '8px',
+                    borderRadius: '8px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                  title="Click to edit quantity"
+                >
+                  {bananaCount}
+                </div>
+              )}
               <div className="counter-label">
                 banana{bananaCount !== 1 ? 's' : ''} • {Math.round(bananaCount * 120)}g
               </div>
