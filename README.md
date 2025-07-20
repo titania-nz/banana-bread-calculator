@@ -134,7 +134,6 @@ If you have questions or need help:
 
 - 🐛 [Open an issue](https://github.com/titania-nz/banana-bread-calculator/issues)
 - 💬 [Start a discussion](https://github.com/titania-nz/banana-bread-calculator/discussions)
-- 📧 Contact: [Your contact info]
 
 ---
 
