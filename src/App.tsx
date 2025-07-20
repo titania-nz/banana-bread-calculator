@@ -416,51 +416,7 @@ export default function App() {
               <div className="section-header">
                 <div className="section-dot optional"></div>
                 <h3 className="section-title">Optional Add-ins</h3>
-                <button
-                  onClick={toggleCustomMixin}
-                  className="ml-auto text-xs px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
-                  title={showCustomMixin ? "Remove custom ingredient" : "Add custom ingredient"}
-                >
-                  {showCustomMixin ? '−' : '+'}
-                </button>
               </div>
-              
-              {showCustomMixin && (
-                <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <div className="grid grid-cols-3 gap-2 mb-2">
-                    <input
-                      type="text"
-                      placeholder="Ingredient name"
-                      value={customMixin.name}
-                      onChange={(e) => handleCustomMixinChange('name', e.target.value)}
-                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Amount per banana"
-                      value={customMixin.baseAmount || ''}
-                      onChange={(e) => handleCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
-                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
-                      min="0"
-                      step="0.1"
-                    />
-                    <select
-                      value={customMixin.unit}
-                      onChange={(e) => handleCustomMixinChange('unit', e.target.value)}
-                      className="text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-yellow-400"
-                    >
-                      <option value="g">g</option>
-                      <option value="ml">ml</option>
-                      <option value="tsp">tsp</option>
-                      <option value="tbsp">tbsp</option>
-                    </select>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    Enter the amount per banana (e.g., "15g chocolate chips per banana")
-                  </p>
-                </div>
-              )}
-              
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
                   <li key={index} className="ingredient-item optional">
@@ -468,6 +424,62 @@ export default function App() {
                     <span className="ingredient-amount">{ingredient.value}</span>
                   </li>
                 ))}
+                
+                {/* Custom Mixin Input */}
+                {showCustomMixin ? (
+                  <li className="ingredient-item optional">
+                    <div className="custom-mixin-form">
+                      <div className="custom-mixin-inputs">
+                        <input
+                          type="text"
+                          placeholder="Custom ingredient"
+                          value={customMixin.name}
+                          onChange={(e) => handleCustomMixinChange('name', e.target.value)}
+                          className="custom-mixin-name-input"
+                        />
+                        <div className="custom-mixin-amount-group">
+                          <input
+                            type="number"
+                            placeholder="Amount"
+                            value={customMixin.baseAmount || ''}
+                            onChange={(e) => handleCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                            className="custom-mixin-amount-input"
+                            min="0"
+                            step="0.1"
+                          />
+                          <select
+                            value={customMixin.unit}
+                            onChange={(e) => handleCustomMixinChange('unit', e.target.value)}
+                            className="custom-mixin-unit-select"
+                          >
+                            <option value="g">g</option>
+                            <option value="ml">ml</option>
+                            <option value="tsp">tsp</option>
+                            <option value="tbsp">tbsp</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button
+                        onClick={toggleCustomMixin}
+                        className="custom-mixin-remove-btn"
+                        title="Remove custom ingredient"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </li>
+                ) : (
+                  <li className="ingredient-item optional add-custom-item">
+                    <button
+                      onClick={toggleCustomMixin}
+                      className="add-custom-btn"
+                      title="Add custom ingredient"
+                    >
+                      <span className="add-custom-icon">+</span>
+                      <span className="add-custom-text">Add custom ingredient</span>
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
