@@ -439,20 +439,18 @@ export default function App() {
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
                   <li key={ingredient.id || index} className="ingredient-item optional">
-                    <div className="flex items-center justify-between w-full">
-                      <span className="ingredient-name">{ingredient.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="ingredient-amount">{ingredient.value}</span>
-                        {ingredient.isCustom && (
-                          <button
-                            onClick={() => removeCustomMixin(ingredient.id)}
-                            className="custom-mixin-remove-btn"
-                            title="Remove custom ingredient"
-                          >
-                            ×
-                          </button>
-                        )}
-                      </div>
+                    <span className="ingredient-name">{ingredient.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="ingredient-amount">{ingredient.value}</span>
+                      {ingredient.isCustom && (
+                        <button
+                          onClick={() => removeCustomMixin(ingredient.id)}
+                          className="custom-mixin-remove-btn"
+                          title="Remove custom ingredient"
+                        >
+                          ×
+                        </button>
+                      )}
                     </div>
                   </li>
                 ))}
@@ -491,7 +489,7 @@ export default function App() {
                           </select>
                         </div>
                       </div>
-                      <div className="flex gap-1">
+                      <div className="flex items-center gap-1">
                         <button
                           onClick={addCustomMixin}
                           className="custom-mixin-add-btn"
