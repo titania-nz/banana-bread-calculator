@@ -490,21 +490,22 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={addCustomMixin}
-                          className="custom-mixin-add-btn"
-                          title="Add custom ingredient"
-                        >
-                          +
-                        </button>
-                        <button
-                          onClick={toggleAddCustom}
-                          className="custom-mixin-cancel-btn"
-                          title="Cancel"
-                        >
-                          ×
-                        </button>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={addCustomMixin}
+                            className="custom-mixin-add-btn"
+                            title="Add custom ingredient"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={toggleAddCustom}
+                            className="custom-mixin-cancel-btn"
+                            title="Cancel"
+                          >
+                            ×
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </li>
