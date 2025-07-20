@@ -441,16 +441,16 @@ export default function App() {
                 ))}
               </ol>
             </div>
-          </div>
-        </div>
 
-        {/* Pro Tip */}
-        <div className="pro-tip">
-          <div className="pro-tip-header">
-            <div className="pro-tip-icon">💡</div>
-            <div className="pro-tip-content">
-              <h4>Pro Tip</h4>
-              <p>The more brown spots on your bananas, the sweeter your bread will be!</p>
+            {/* Pro Tip */}
+            <div className="pro-tip">
+              <div className="pro-tip-header">
+                <div className="pro-tip-icon">💡</div>
+                <div className="pro-tip-content">
+                  <h4>Pro Tip</h4>
+                  <p>The more brown spots on your bananas, the sweeter your bread will be!</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
