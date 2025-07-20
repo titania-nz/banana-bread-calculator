@@ -528,20 +528,14 @@ body {
 }
 
 .custom-mixin-name-input {
-  width: 100%;
+  width: 200px;
   padding: 6px 8px;
-  border: 1px solid #E6D5B8;
-  border-radius: 4px;
+  border: none;
+  background: transparent;
   font-size: 14px;
   font-weight: 400;
   color: #6F4E37;
-  background: #FFFFFF;
   outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.custom-mixin-name-input:focus {
-  border-color: #FFD45C;
 }
 
 .custom-mixin-name-input::placeholder {
@@ -550,26 +544,21 @@ body {
 }
 
 .custom-mixin-amount-group {
-  display: flex;
+  display: inline-flex;
   gap: 4px;
 }
 
 .custom-mixin-amount-input {
   flex: 1;
   padding: 6px 8px;
-  border: 1px solid #E6D5B8;
-  border-radius: 4px;
+  border: none;
+  background: transparent;
   font-size: 14px;
   font-weight: 600;
   color: #6F4E37;
-  background: #FFFFFF;
   outline: none;
-  transition: border-color 0.2s ease;
   text-align: center;
-}
-
-.custom-mixin-amount-input:focus {
-  border-color: #FFD45C;
+  width: 60px;
 }
 
 .custom-mixin-amount-input::placeholder {
@@ -579,19 +568,14 @@ body {
 
 .custom-mixin-unit-select {
   padding: 6px 8px;
-  border: 1px solid #E6D5B8;
-  border-radius: 4px;
+  border: none;
+  background: transparent;
   font-size: 14px;
   font-weight: 600;
   color: #6F4E37;
-  background: #FFFFFF;
   outline: none;
-  transition: border-color 0.2s ease;
   cursor: pointer;
-}
-
-.custom-mixin-unit-select:focus {
-  border-color: #FFD45C;
+  width: 50px;
 }
 
 .custom-mixin-remove-btn {
@@ -620,39 +604,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: #C9DAB7;
+  background: #E6D5B8;
   border: none;
   color: #6F4E37;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  margin-left: 8px;
 }
 
 .custom-mixin-add-btn:hover {
-  background: #A8B89A;
-  color: white;
+  background: #FFD45C;
 }
 
 .custom-mixin-cancel-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #E6D5B8;
   border: none;
   color: #6F4E37;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  margin-left: 4px;
 }
 
 .custom-mixin-cancel-btn:hover {
