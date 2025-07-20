@@ -469,6 +469,7 @@ body {
 /* Custom Mixin Styles */
 .add-custom-item {
   border-bottom: none !important;
+  padding-top: 8px !important;
 }
 
 .add-custom-btn {
