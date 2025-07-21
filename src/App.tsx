@@ -10,6 +10,7 @@ export default function App() {
   const [customMixins, setCustomMixins] = useState<Array<{ id: string; name: string; baseAmount: number; unit: string }>>([]);
   const [showAddCustom, setShowAddCustom] = useState(false);
   const [newCustomMixin, setNewCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
+  const [showBananaSizeHelp, setShowBananaSizeHelp] = useState(false);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -365,7 +366,12 @@ export default function App() {
             </div>
             
             <div className="help-link">
-              🔍 Banana sizes
+              <button
+                onClick={() => setShowBananaSizeHelp(true)}
+                className="help-link"
+              >
+                🔍 Banana sizes
+              </button>
             </div>
           </div>
 
@@ -375,6 +381,49 @@ export default function App() {
             </div>
           )}
         </section>
+
+        {/* Banana Size Help Modal */}
+        {showBananaSizeHelp && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50" 
+              onClick={() => setShowBananaSizeHelp(false)}
+            />
+            <div className="relative bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
+              <button
+                onClick={() => setShowBananaSizeHelp(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                ×
+              </button>
+              <h3 className="text-lg font-semibold text-deep-brown mb-4">🍌 Banana Size Guide</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="font-medium">Small banana</span>
+                  <span className="text-gray-600">80-100g</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="font-medium">Medium banana</span>
+                  <span className="text-gray-600">120g (default)</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="font-medium">Large banana</span>
+                  <span className="text-gray-600">140-160g</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">Extra large banana</span>
+                  <span className="text-gray-600">180g+</span>
+                </div>
+              </div>
+              <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
+                <p className="text-xs text-gray-600">
+                  💡 <strong>Tip:</strong> Weigh your bananas for the most accurate recipe scaling. 
+                  The calculator assumes 120g per banana by default.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Main Content */}
         <div className="main-content">
