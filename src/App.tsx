@@ -368,7 +368,7 @@ export default function App() {
             <div className="help-link">
               <button
                 onClick={() => setShowBananaSizeHelp(true)}
-                className="help-link"
+                className="help-link-btn"
               >
                 🔍 Banana sizes
               </button>
@@ -384,39 +384,39 @@ export default function App() {
 
         {/* Banana Size Help Modal */}
         {showBananaSizeHelp && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
             <div 
-              className="fixed inset-0 bg-black bg-opacity-50" 
+              className="absolute inset-0" 
               onClick={() => setShowBananaSizeHelp(false)}
             />
-            <div className="relative bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
+            <div className="relative bg-white rounded-xl p-6 max-w-md w-full shadow-xl border border-gray-200 z-10">
               <button
                 onClick={() => setShowBananaSizeHelp(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
               >
-                ×
+                <span className="text-xl leading-none">×</span>
               </button>
-              <h3 className="text-lg font-semibold text-deep-brown mb-4">🍌 Banana Size Guide</h3>
+              <h3 className="text-xl font-bold text-deep-brown mb-6 pr-8">🍌 Banana Size Guide</h3>
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="font-medium">Small banana</span>
-                  <span className="text-gray-600">80-100g</span>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="font-medium text-deep-brown">Small banana</span>
+                  <span className="text-gray-600 font-mono">80-100g</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="font-medium">Medium banana</span>
-                  <span className="text-gray-600">120g (default)</span>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100 bg-yellow-50 -mx-2 px-2 rounded">
+                  <span className="font-medium text-deep-brown">Medium banana</span>
+                  <span className="text-deep-brown font-mono font-semibold">120g (default)</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="font-medium">Large banana</span>
-                  <span className="text-gray-600">140-160g</span>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="font-medium text-deep-brown">Large banana</span>
+                  <span className="text-gray-600 font-mono">140-160g</span>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">Extra large banana</span>
-                  <span className="text-gray-600">180g+</span>
+                <div className="flex justify-between items-center py-3">
+                  <span className="font-medium text-deep-brown">Extra large banana</span>
+                  <span className="text-gray-600 font-mono">180g+</span>
                 </div>
               </div>
-              <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
-                <p className="text-xs text-gray-600">
+              <div className="mt-6 p-4 bg-soft-yellow rounded-lg border border-yellow-200">
+                <p className="text-sm text-deep-brown leading-relaxed">
                   💡 <strong>Tip:</strong> Weigh your bananas for the most accurate recipe scaling. 
                   The calculator assumes 120g per banana by default.
                 </p>
