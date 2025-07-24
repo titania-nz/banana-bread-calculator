@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { BananaSizeModal } from './components/BananaSizeModal';
 
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
@@ -11,7 +10,6 @@ export default function App() {
   const [customMixins, setCustomMixins] = useState<Array<{ id: string; name: string; baseAmount: number; unit: string }>>([]);
   const [showAddCustom, setShowAddCustom] = useState(false);
   const [newCustomMixin, setNewCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
-  const [isBananaSizeModalOpen, setIsBananaSizeModalOpen] = useState(false);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -365,14 +363,6 @@ export default function App() {
               />
               <span className="weight-unit">g</span>
             </div>
-            
-            <button
-              onClick={() => setIsBananaSizeModalOpen(true)}
-              className="help-link-btn"
-              type="button"
-            >
-              🔍 Banana sizes
-            </button>
           </div>
 
           {inputError && (
@@ -580,12 +570,6 @@ export default function App() {
           </div>
         </div>
       </div>
-
-      {/* Banana Size Modal */}
-      <BananaSizeModal 
-        isOpen={isBananaSizeModalOpen}
-        onClose={() => setIsBananaSizeModalOpen(false)}
-      />
 
       {/* Footer */}
       <footer className="footer">
