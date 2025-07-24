@@ -84,6 +84,7 @@ export default function App() {
 
   const getBananaStatus = () => {
     if (bananaCount === 69) return { message: "Nice.", emoji: "😎" };
+    if (bananaCount === 100) return { message: "That's too many bananas! Your freezer called - it's filing a restraining order.", emoji: "🚨" };
     if (bananaCount === 1) return { message: "Lonely banana", emoji: "🍌" };
     if (bananaCount <= 3) return { message: "Perfect portion", emoji: "✨" };
     if (bananaCount <= 6) return { message: "Family loaf", emoji: "🏠" };
@@ -231,9 +232,11 @@ export default function App() {
   };
 
   const addCustomMixin = () => {
-    if (newCustomMixin.name && newCustomMixin.baseAmount > 0) {
+    if (newCustomMixin.name.trim() && newCustomMixin.baseAmount > 0) {
       const newMixin = {
-        ...newCustomMixin,
+        name: newCustomMixin.name.trim(),
+        baseAmount: newCustomMixin.baseAmount,
+        unit: newCustomMixin.unit,
         id: Date.now().toString()
       };
       setCustomMixins(prev => [...prev, newMixin]);
@@ -465,55 +468,68 @@ export default function App() {
                 {/* Custom Mixin Input */}
                 {showAddCustom ? (
                   <li className="ingredient-item optional">
-                    <div className="custom-mixin-form">
-                      <li className="ingredient-item optional add-custom-item">
-                        <span className="ingredient-name">
-                          <input
-                            type="text"
-                            placeholder="Custom ingredient"
-                            value={newCustomMixin.name}
-                            onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
-                            className="custom-mixin-name-input"
-                          />
-                        </span>
-                        <span className="ingredient-amount">
-                          <div className="custom-mixin-amount-group">
-                            <input
-                              type="number"
-                              placeholder="Amount"
-                              value={newCustomMixin.baseAmount || ''}
-                              onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
-                              className="custom-mixin-amount-input"
-                              min="0"
-                              step="0.1"
-                            />
-                            <select
-                              value={newCustomMixin.unit}
-                              onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
-                              className="custom-mixin-unit-select"
-                            >
-                              <option value="g">g</option>
-                              <option value="ml">ml</option>
-                              <option value="tsp">tsp</option>
-                              <option value="tbsp">tbsp</option>
-                            </select>
-                          </div>
+                    <div className="custom-ingredient-form">
+                      <div className="custom-ingredient-name">
+                        <input
+                          type="text"
+                          placeholder="Custom ingredient name"
+                          value={newCustomMixin.name}
+                          onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              addCustomMixin();
+                            } else if (e.key === 'Escape') {
+                              toggleAddCustom();
+                            }
+                          }}
+                          autoFocus
+                        />
+                      </div>
+                      <div className="custom-ingredient-amount">
+                        <input
+                          type="number"
+                          placeholder="0"
+                          value={newCustomMixin.baseAmount || ''}
+                          onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                          className="custom-amount-input"
+                          min="0"
+                          step="0.1"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              addCustomMixin();
+                            } else if (e.key === 'Escape') {
+                              toggleAddCustom();
+                            }
+                          }}
+                        />
+                        <select
+                          value={newCustomMixin.unit}
+                          onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
+                          className="custom-unit-select"
+                        >
+                          <option value="g">g</option>
+                          <option value="ml">ml</option>
+                          <option value="tsp">tsp</option>
+                          <option value="tbsp">tbsp</option>
+                        </select>
+                        <div className="custom-form-actions">
                           <button
                             onClick={addCustomMixin}
-                            className="custom-mixin-add-btn"
+                            className="custom-action-btn add"
                             title="Add custom ingredient"
+                            disabled={!newCustomMixin.name || newCustomMixin.baseAmount <= 0}
                           >
-                            +
+                            ✓
                           </button>
                           <button
                             onClick={toggleAddCustom}
-                            className="custom-mixin-cancel-btn"
+                            className="custom-action-btn cancel"
                             title="Cancel"
                           >
                             ×
                           </button>
-                        </span>
-                      </li>
+                        </div>
+                      </div>
                     </div>
                   </li>
                 ) : (

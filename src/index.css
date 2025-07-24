@@ -646,6 +646,114 @@ body {
   color: white;
 }
 
+/* Fixed custom ingredient form styling */
+.custom-ingredient-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid #F5F0E1;
+}
+
+.custom-ingredient-name {
+  flex: 1;
+}
+
+.custom-ingredient-name input {
+  width: 100%;
+  padding: 4px 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6F4E37;
+  outline: none;
+}
+
+.custom-ingredient-name input::placeholder {
+  color: #8B7355;
+  font-style: italic;
+}
+
+.custom-ingredient-amount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-amount-input {
+  width: 60px;
+  padding: 4px 6px;
+  border: 1px solid #E6D5B8;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6F4E37;
+  text-align: center;
+  outline: none;
+}
+
+.custom-amount-input:focus {
+  border-color: #FFD45C;
+}
+
+.custom-unit-select {
+  padding: 4px 6px;
+  border: 1px solid #E6D5B8;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6F4E37;
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-unit-select:focus {
+  border-color: #FFD45C;
+}
+
+.custom-form-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+.custom-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-action-btn.add {
+  background: #C9DAB7;
+  color: #6F4E37;
+}
+
+.custom-action-btn.add:hover {
+  background: #FFD45C;
+}
+
+.custom-action-btn.cancel {
+  background: #E6D5B8;
+  color: #6F4E37;
+}
+
+.custom-action-btn.cancel:hover {
+  background: #E57373;
+  color: white;
+}
+
 .error-message {
   background: rgba(229, 115, 115, 0.1);
   border: 1px solid #E57373;
