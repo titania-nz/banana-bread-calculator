@@ -369,7 +369,7 @@ export default function App() {
               type="button"
               onClick={() => setIsBananaSizeGuideOpen(true)}
               className="help-link-btn"
-              title="How big is your bananas?"
+              title="How big are your bananas?"
             >
               🔍 Banana sizes
             </button>
