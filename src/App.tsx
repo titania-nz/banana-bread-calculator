@@ -365,14 +365,12 @@ export default function App() {
               <span className="weight-unit">g</span>
             </div>
             
-            <div className="help-link">
-              <button
-                onClick={() => setShowBananaSizeHelp(true)}
-                className="help-link-btn"
-              >
-                🔍 Banana sizes
-              </button>
-            </div>
+            <button
+              onClick={() => setShowBananaSizeHelp(true)}
+              className="help-link-btn"
+            >
+              🔍 Banana sizes
+            </button>
           </div>
 
           {inputError && (
