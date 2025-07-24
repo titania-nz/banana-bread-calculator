@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { BananaSizesDialog } from "./components/BananaSizesDialog";
+import { BananaSizeGuide } from './components/BananaSizeGuide';
 
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
@@ -8,6 +8,10 @@ export default function App() {
   const [inputError, setInputError] = useState('');
   const [isEditingCount, setIsEditingCount] = useState(false);
   const [tempCountValue, setTempCountValue] = useState('');
+  const [customMixins, setCustomMixins] = useState<Array<{ id: string; name: string; baseAmount: number; unit: string }>>([]);
+  const [showAddCustom, setShowAddCustom] = useState(false);
+  const [newCustomMixin, setNewCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
+  const [isBananaSizeGuideOpen, setIsBananaSizeGuideOpen] = useState(false);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -208,9 +212,46 @@ export default function App() {
 
   const optionalAddIns = [
     { name: 'Chopped nuts', value: getIngredientAmount('nuts') },
-    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') }
+    { name: 'Chocolate chips', value: getIngredientAmount('chocolate') },
+    ...customMixins.filter(mixin => mixin.name && mixin.baseAmount > 0).map(mixin => ({
+      name: mixin.name,
+      value: isMetric 
+        ? `${Math.round(mixin.baseAmount * bananaCount)}${mixin.unit}`
+        : `${toFraction(mixin.baseAmount * bananaCount / (mixin.unit === 'g' ? 14.3 : mixin.unit === 'ml' ? 4.93 : 1))} ${mixin.unit === 'g' ? 'tbsp' : mixin.unit === 'ml' ? 'tsp' : mixin.unit}`,
+      isCustom: true,
+      id: mixin.id
+    }))
   ];
 
+  const handleNewCustomMixinChange = (field: string, value: string | number) => {
+    setNewCustomMixin(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const addCustomMixin = () => {
+    if (newCustomMixin.name && newCustomMixin.baseAmount > 0) {
+      const newMixin = {
+        ...newCustomMixin,
+        id: Date.now().toString()
+      };
+      setCustomMixins(prev => [...prev, newMixin]);
+      setNewCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
+      setShowAddCustom(false);
+    }
+  };
+
+  const removeCustomMixin = (id: string) => {
+    setCustomMixins(prev => prev.filter(mixin => mixin.id !== id));
+  };
+
+  const toggleAddCustom = () => {
+    setShowAddCustom(!showAddCustom);
+    if (!showAddCustom) {
+      setNewCustomMixin({ name: '', baseAmount: 0, unit: 'g' });
+    }
+  };
   const methodSteps = [
     `Preheat oven to ${bakingInfo.temp}`,
     'Mash bananas, mix with wet ingredients',
@@ -324,7 +365,14 @@ export default function App() {
               />
               <span className="weight-unit">g</span>
             </div>
-            <BananaSizesDialog />
+            <button
+              type="button"
+              onClick={() => setIsBananaSizeGuideOpen(true)}
+              className="help-link-btn"
+              title="How big is my banana?"
+            >
+              🔍 How big is my banana?
+            </button>
           </div>
 
           {inputError && (
@@ -333,6 +381,7 @@ export default function App() {
             </div>
           )}
         </section>
+
 
         {/* Main Content */}
         <div className="main-content">
@@ -396,11 +445,89 @@ export default function App() {
               </div>
               <ul className="ingredient-list">
                 {optionalAddIns.map((ingredient, index) => (
-                  <li key={index} className="ingredient-item optional">
+                  <li key={ingredient.id || index} className="ingredient-item optional">
                     <span className="ingredient-name">{ingredient.name}</span>
-                    <span className="ingredient-amount">{ingredient.value}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="ingredient-amount">{ingredient.value}</span>
+                      {ingredient.isCustom && (
+                        <button
+                          onClick={() => removeCustomMixin(ingredient.id)}
+                          className="custom-mixin-remove-btn"
+                          title="Remove custom ingredient"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
                   </li>
                 ))}
+                
+                {/* Custom Mixin Input */}
+                {showAddCustom ? (
+                  <li className="ingredient-item optional">
+                    <div className="custom-mixin-form">
+                      <li className="ingredient-item optional add-custom-item">
+                        <span className="ingredient-name">
+                          <input
+                            type="text"
+                            placeholder="Custom ingredient"
+                            value={newCustomMixin.name}
+                            onChange={(e) => handleNewCustomMixinChange('name', e.target.value)}
+                            className="custom-mixin-name-input"
+                          />
+                        </span>
+                        <span className="ingredient-amount">
+                          <div className="custom-mixin-amount-group">
+                            <input
+                              type="number"
+                              placeholder="Amount"
+                              value={newCustomMixin.baseAmount || ''}
+                              onChange={(e) => handleNewCustomMixinChange('baseAmount', parseFloat(e.target.value) || 0)}
+                              className="custom-mixin-amount-input"
+                              min="0"
+                              step="0.1"
+                            />
+                            <select
+                              value={newCustomMixin.unit}
+                              onChange={(e) => handleNewCustomMixinChange('unit', e.target.value)}
+                              className="custom-mixin-unit-select"
+                            >
+                              <option value="g">g</option>
+                              <option value="ml">ml</option>
+                              <option value="tsp">tsp</option>
+                              <option value="tbsp">tbsp</option>
+                            </select>
+                          </div>
+                          <button
+                            onClick={addCustomMixin}
+                            className="custom-mixin-add-btn"
+                            title="Add custom ingredient"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={toggleAddCustom}
+                            className="custom-mixin-cancel-btn"
+                            title="Cancel"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      </li>
+                    </div>
+                  </li>
+                ) : (
+                  <li className="ingredient-item optional add-custom-item">
+                    <button
+                      onClick={toggleAddCustom}
+                      className="add-custom-btn"
+                      title="Add custom ingredient"
+                    >
+                      <span className="add-custom-icon">+</span>
+                      <span className="add-custom-text">Add custom ingredient</span>
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -465,6 +592,12 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Banana Size Guide Modal */}
+      <BananaSizeGuide
+        isOpen={isBananaSizeGuideOpen}
+        onClose={() => setIsBananaSizeGuideOpen(false)}
+      />
     </div>
   );
 }

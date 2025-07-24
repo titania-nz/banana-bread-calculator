@@ -183,7 +183,7 @@ body {
   color: #6F4E37;
 }
 
-.help-link {
+.help-link-btn {
   color: #6F4E37;
   text-decoration: underline;
   font-size: 14px;
@@ -194,9 +194,10 @@ body {
   padding: 8px 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  outline: none;
 }
 
-.help-link:hover {
+.help-link-btn:hover {
   background: #6F4E37;
   color: white;
 }
@@ -466,6 +467,185 @@ body {
   text-decoration: underline;
 }
 
+/* Custom Mixin Styles */
+.add-custom-item {
+  border-bottom: none !important;
+  padding-top: 16px !important;
+}
+
+.add-custom-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #8B7355;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.add-custom-btn:hover {
+  color: #6F4E37;
+}
+
+.add-custom-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #E6D5B8;
+  color: #6F4E37;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.add-custom-btn:hover .add-custom-icon {
+  background: #FFD45C;
+}
+
+.add-custom-text {
+  font-style: italic;
+}
+
+.custom-mixin-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding-top: 8px;
+}
+
+.custom-mixin-inputs {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.custom-mixin-name-input {
+  width: 200px;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6F4E37;
+  outline: none;
+}
+
+.custom-mixin-name-input::placeholder {
+  color: #8B7355;
+  font-style: italic;
+}
+
+.custom-mixin-amount-group {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.custom-mixin-amount-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6F4E37;
+  outline: none;
+  text-align: center;
+  width: 60px;
+}
+
+.custom-mixin-amount-input::placeholder {
+  color: #8B7355;
+  font-weight: 400;
+}
+
+.custom-mixin-unit-select {
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6F4E37;
+  outline: none;
+  cursor: pointer;
+  width: 50px;
+}
+
+.custom-mixin-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #E6D5B8;
+  border: none;
+  color: #6F4E37;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.custom-mixin-remove-btn:hover {
+  background: #E57373;
+  color: white;
+}
+
+.custom-mixin-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #E6D5B8;
+  border: none;
+  color: #6F4E37;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.custom-mixin-add-btn:hover {
+  background: #FFD45C;
+}
+
+.custom-mixin-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #E6D5B8;
+  border: none;
+  color: #6F4E37;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.custom-mixin-cancel-btn:hover {
+  background: #E57373;
+  color: white;
+}
+
 .error-message {
   background: rgba(229, 115, 115, 0.1);
   border: 1px solid #E57373;
@@ -526,5 +706,28 @@ body {
   
   .pro-tip {
     margin-top: 16px;
+  }
+  
+  .custom-mixin-inputs {
+    gap: 6px;
+  }
+  
+  .custom-mixin-amount-group {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .custom-mixin-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .custom-mixin-remove-btn {
+    align-self: flex-end;
+  }
+
+  .flex.items-center.gap-1 {
+    gap: 8px;
   }
 }
