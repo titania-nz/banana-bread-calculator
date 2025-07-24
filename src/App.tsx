@@ -368,6 +368,7 @@ export default function App() {
             <button
               onClick={() => setShowBananaSizeHelp(true)}
               className="help-link-btn"
+             type="button"
             >
               🔍 Banana sizes
             </button>
@@ -579,24 +580,44 @@ export default function App() {
         </div>
       </div>
 
-      {/* Banana Size Help Modal - Outside container for proper overlay */}
+      {/* Banana Size Help Modal */}
       {showBananaSizeHelp && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ 
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999
+          }}
         >
           <div 
             className="absolute inset-0" 
             onClick={() => setShowBananaSizeHelp(false)}
           />
           <div 
-            className="relative bg-white rounded-xl p-6 max-w-md w-full shadow-xl border border-gray-200 z-10"
-            style={{ maxHeight: '80vh', overflowY: 'auto' }}
+            className="relative bg-white rounded-xl p-6 max-w-md w-full shadow-xl border border-gray-200"
+            style={{ 
+              maxHeight: '80vh', 
+              overflowY: 'auto',
+              backgroundColor: '#FFFFFF',
+              borderColor: '#E6D5B8',
+              zIndex: 10000
+            }}
           >
             <button
               onClick={() => setShowBananaSizeHelp(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors"
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer'
+              }}
               aria-label="Close banana size guide"
+              type="button"
             >
               <span className="text-xl leading-none">×</span>
             </button>
@@ -633,6 +654,7 @@ export default function App() {
           </div>
         </div>
       )}
+
       {/* Footer */}
       <footer className="footer">
         <div className="container">
