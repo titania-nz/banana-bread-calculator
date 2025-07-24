@@ -84,6 +84,7 @@ export default function App() {
 
   const getBananaStatus = () => {
     if (bananaCount === 69) return { message: "Nice.", emoji: "😎" };
+    if (bananaCount === 100) return { message: "That's too many bananas! Your freezer called - it's filing a restraining order.", emoji: "🚨" };
     if (bananaCount === 1) return { message: "Lonely banana", emoji: "🍌" };
     if (bananaCount <= 3) return { message: "Perfect portion", emoji: "✨" };
     if (bananaCount <= 6) return { message: "Family loaf", emoji: "🏠" };
