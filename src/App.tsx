@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { BananaSizesDialog } from "./components/BananaSizesDialog";
 
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
@@ -323,10 +324,7 @@ export default function App() {
               />
               <span className="weight-unit">g</span>
             </div>
-            
-            <div className="help-link">
-              🔍 Banana sizes
-            </div>
+            <BananaSizesDialog />
           </div>
 
           {inputError && (
