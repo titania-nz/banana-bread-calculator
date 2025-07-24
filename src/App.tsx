@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { BananaSizeModal } from './components/BananaSizeModal';
 
 export default function App() {
   const [bananaCount, setBananaCount] = useState(3);
@@ -10,7 +11,7 @@ export default function App() {
   const [customMixins, setCustomMixins] = useState<Array<{ id: string; name: string; baseAmount: number; unit: string }>>([]);
   const [showAddCustom, setShowAddCustom] = useState(false);
   const [newCustomMixin, setNewCustomMixin] = useState({ name: '', baseAmount: 0, unit: 'g' });
-  const [showBananaSizeHelp, setShowBananaSizeHelp] = useState(false);
+  const [isBananaSizeModalOpen, setIsBananaSizeModalOpen] = useState(false);
 
   // Enhanced fraction conversion for cooking measurements
   const toFraction = useCallback((decimal: number): string => {
@@ -366,9 +367,9 @@ export default function App() {
             </div>
             
             <button
-              onClick={() => setShowBananaSizeHelp(true)}
+              onClick={() => setIsBananaSizeModalOpen(true)}
               className="help-link-btn"
-             type="button"
+              type="button"
             >
               🔍 Banana sizes
             </button>
@@ -580,80 +581,11 @@ export default function App() {
         </div>
       </div>
 
-      {/* Banana Size Help Modal */}
-      {showBananaSizeHelp && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ 
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 9999
-          }}
-        >
-          <div 
-            className="absolute inset-0" 
-            onClick={() => setShowBananaSizeHelp(false)}
-          />
-          <div 
-            className="relative bg-white rounded-xl p-6 max-w-md w-full shadow-xl border border-gray-200"
-            style={{ 
-              maxHeight: '80vh', 
-              overflowY: 'auto',
-              backgroundColor: '#FFFFFF',
-              borderColor: '#E6D5B8',
-              zIndex: 10000
-            }}
-          >
-            <button
-              onClick={() => setShowBananaSizeHelp(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors"
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-              aria-label="Close banana size guide"
-              type="button"
-            >
-              <span className="text-xl leading-none">×</span>
-            </button>
-            <h3 className="text-xl font-bold mb-6 pr-8" style={{ color: '#6F4E37' }}>
-              🍌 Banana Size Guide
-            </h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between items-center py-3 border-b" style={{ borderColor: '#F5F0E1' }}>
-                <span className="font-medium" style={{ color: '#6F4E37' }}>Small banana</span>
-                <span className="text-gray-600 font-mono">80-100g</span>
-              </div>
-              <div 
-                className="flex justify-between items-center py-3 border-b -mx-2 px-2 rounded" 
-                style={{ borderColor: '#F5F0E1', backgroundColor: '#FFF2B8' }}
-              >
-                <span className="font-medium" style={{ color: '#6F4E37' }}>Medium banana</span>
-                <span className="font-mono font-semibold" style={{ color: '#6F4E37' }}>120g (default)</span>
-              </div>
-              <div className="flex justify-between items-center py-3 border-b" style={{ borderColor: '#F5F0E1' }}>
-                <span className="font-medium" style={{ color: '#6F4E37' }}>Large banana</span>
-                <span className="text-gray-600 font-mono">140-160g</span>
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <span className="font-medium" style={{ color: '#6F4E37' }}>Extra large banana</span>
-                <span className="text-gray-600 font-mono">180g+</span>
-              </div>
-            </div>
-            <div className="mt-6 p-4 rounded-lg border" style={{ backgroundColor: '#FFF2B8', borderColor: '#FFD45C' }}>
-              <p className="text-sm leading-relaxed" style={{ color: '#6F4E37' }}>
-                💡 <strong>Tip:</strong> Weigh your bananas for the most accurate recipe scaling. 
-                The calculator assumes 120g per banana by default.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Banana Size Modal */}
+      <BananaSizeModal 
+        isOpen={isBananaSizeModalOpen}
+        onClose={() => setIsBananaSizeModalOpen(false)}
+      />
 
       {/* Footer */}
       <footer className="footer">
