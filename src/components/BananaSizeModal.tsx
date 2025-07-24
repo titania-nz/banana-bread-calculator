@@ -38,7 +38,7 @@ export const BananaSizeModal: React.FC<BananaSizeModalProps> = ({ isOpen, onClos
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Close banana size guide"
           >
             <X className="w-5 h-5 text-gray-500" />
